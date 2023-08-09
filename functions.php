@@ -1,5 +1,13 @@
 <?php
 
+function wpstorm_theme_load_assets()
+{
+    wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), '1.0.0', true);
+    wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'));
+}
+
+add_action('wp_enqueue_scripts', 'wpstorm_theme_load_assets');
+
 function has_submenu_items($menu_items, $parent_id)
 {
     foreach ($menu_items as $menu_item) {
@@ -9,7 +17,6 @@ function has_submenu_items($menu_items, $parent_id)
     }
     return false;
 }
-
 
 function get_submenu_items($menu_items, $parent_id)
 {
@@ -24,19 +31,12 @@ function get_submenu_items($menu_items, $parent_id)
     return $submenu_items;
 }
 
-function wpstorm_theme_load_assets()
-{
-    wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), '1.0.0', true);
-    wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'));
-}
-
-add_action('wp_enqueue_scripts', 'wpstorm_theme_load_assets');
-
-
 function wpstorm_theme_supports()
 {
     register_nav_menu('primary-menu', __('Primary Menu', 'wpstorm-theme'));
     register_nav_menu('primary-mobile-menu', __('Primary Mobile Menu', 'wpstorm-theme'));
+    register_nav_menu('404-menu', __('404 Popular Pages Menu'));
+
     register_nav_menu('footer-menu-1', __('Footer Menu 1', 'wpstorm-theme'));
     register_nav_menu('footer-menu-2', __('Footer Menu 2', 'wpstorm-theme'));
     register_nav_menu('footer-menu-3', __('Footer Menu 3', 'wpstorm-theme'));
@@ -51,7 +51,6 @@ function wpstorm_theme_supports()
 }
 
 add_action('after_setup_theme', 'wpstorm_theme_supports');
-
 
 // Redirect subscriber accounts out of admin and onto homepage
 add_action('admin_init', 'redirectSubsToFrontend');
@@ -76,3 +75,36 @@ function noSubsAdminBar()
         show_admin_bar(false);
     }
 }
+
+function theme_customizer_settings($wp_customize)
+{
+    // Add a section for 404-page settings
+    $wp_customize->add_section('404_page_section', array(
+        'title' => '404 Page',
+        'priority' => 30,
+    ));
+
+    $wp_customize->add_setting('404_heading', array(
+        'default' => 'This page does not exist',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('404_heading', array(
+        'label' => '404 Heading',
+        'section' => '404_page_section',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('404_sub_heading', array(
+        'default' => 'Sorry, we couldn’t find the page you’re looking for.',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('404_sub_heading', array(
+        'label' => '404 Heading',
+        'section' => '404_page_section',
+        'type' => 'text',
+    ));
+}
+
+add_action('customize_register', 'theme_customizer_settings');

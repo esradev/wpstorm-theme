@@ -103,15 +103,15 @@
                         </div>
                         <div class="ml-3">
                             <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900"><?php echo esc_html(wp_get_current_user()->display_name) ?></p>
-                            <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700"><?php __('View Profile', 'wpstorm-theme') ?></p>
+                            <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700"><?php echo __('View Profile', 'wpstorm-theme') ?></p>
                         </div>
                     </div>
                 </a>
             <?php } else { ?>
                 <a href="<?php echo esc_url(wp_login_url()) ?>"
-                   class="text-sm font-semibold leading-6 text-gray-900"><?php __('Login', 'wpstorm-theme') ?></a>
+                   class="text-sm font-semibold leading-6 text-gray-900"><?php echo __('Login', 'wpstorm-theme') ?></a>
                 <a href="<?php echo esc_url(wp_registration_url()) ?>"
-                   class="text-sm font-semibold leading-6 text-gray-900"><?php __('Sing up', 'wpstorm-theme') ?></a>
+                   class="text-sm font-semibold leading-6 text-gray-900"><?php echo __('Sing up', 'wpstorm-theme') ?></a>
             <?php } ?>
 
         </div>
