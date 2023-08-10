@@ -12,8 +12,7 @@
         <div class="flex lg:flex-1">
             <a href="<?php echo site_url() ?>" class="-m-1.5 p-1.5 flex items-center justify-center">
                 <span class="sr-only"><?php echo get_bloginfo('name'); ?></span>
-                <?php
-                if (get_site_icon_url()) {
+                <?php if (get_site_icon_url()) {
                     echo '<img class="h-8 w-auto" src="' . esc_url(get_site_icon_url()) . '" alt="Site Icon">';
                 } else {
                     echo '<img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">';
@@ -39,10 +38,8 @@
 
             if ($menu_items) {
                 foreach ($menu_items as $menu_item) {
-                    echo '<div class="relative">';
-
-                    if (has_submenu_items($menu_items, $menu_item->ID)) {
-
+                    if (Wpstorm_Theme_Menus::has_submenu_items($menu_items, $menu_item->ID)) {
+                        echo '<div class="relative">';
                         echo '<button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 submenu-toggle" aria-expanded="false">';
                         echo esc_html($menu_item->title);
                         echo '<svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">';
@@ -50,7 +47,7 @@
                         echo '</svg>';
                         echo '</button>';
 
-                        $submenu_items = get_submenu_items($menu_items, $menu_item->ID);
+                        $submenu_items = Wpstorm_Theme_Menus::get_submenu_items($menu_items, $menu_item->ID);
                         if ($submenu_items) {
                             echo '<div class="absolute -left-8 top-full z-10 mt-3 w-96 rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5 hidden">';
                             foreach ($submenu_items as $submenu_item) {
@@ -66,13 +63,12 @@
                             }
                             echo '</div>';
                         }
+                        echo '</div>';
                     } else if (!$menu_item->menu_item_parent > 0) {
                         echo '<a href="' . esc_url($menu_item->url) . '" class="block text-sm font-semibold leading-6 text-gray-900">';
                         echo esc_html($menu_item->title);
                         echo '</a>';
                     }
-
-                    echo '</div>';
                 }
             } else {
                 echo 'No menu items found.';
@@ -149,13 +145,13 @@
                             $menu_items = wp_get_nav_menu_items('main-menu');
                             if ($menu_items) {
                                 foreach ($menu_items as $menu_item) {
-                                    if (has_submenu_items($menu_items, $menu_item->ID)) {
+                                    if (Wpstorm_Theme_Menus::has_submenu_items($menu_items, $menu_item->ID)) {
 
                                         echo '<a href="' . esc_url($menu_item->url) . '" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">';
                                         echo esc_html($menu_item->title);
                                         echo '</a>';
 
-                                        $submenu_items = get_submenu_items($menu_items, $menu_item->ID);
+                                        $submenu_items = Wpstorm_Theme_Menus::get_submenu_items($menu_items, $menu_item->ID);
                                         if ($submenu_items) {
                                             foreach ($submenu_items as $submenu_item) {
                                                 echo '<a href="' . esc_url($submenu_item->url) . '" class="-mx-5 block rounded-lg px-6 py-2 text-sm font-light leading-7 text-gray-900 hover:bg-gray-50">';
