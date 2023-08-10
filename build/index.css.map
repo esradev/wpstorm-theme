@@ -1,0 +1,1 @@
+{"version":3,"file":"index.css","mappings":";;;AAAA,cAAc;AACd,oBAAoB;AACpB,mBAAmB","sources":["webpack://wpstorm-theme/./src/index.css"],"sourcesContent":["@tailwind base;\r\n@tailwind components;\r\n@tailwind utilities;\r\n"],"names":[],"sourceRoot":""}

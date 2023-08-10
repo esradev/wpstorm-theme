@@ -13,9 +13,8 @@
             <a href="<?php echo site_url() ?>" class="-m-1.5 p-1.5 flex items-center justify-center">
                 <span class="sr-only"><?php echo get_bloginfo('name'); ?></span>
                 <?php
-                $site_icon_url = get_site_icon_url();
-                if ($site_icon_url) {
-                    echo '<img class="h-8 w-auto" src="' . esc_url($site_icon_url) . '" alt="Site Icon">';
+                if (get_site_icon_url()) {
+                    echo '<img class="h-8 w-auto" src="' . esc_url(get_site_icon_url()) . '" alt="Site Icon">';
                 } else {
                     echo '<img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">';
                 }
