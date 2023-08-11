@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "wpbuild": "wp-scripts build",
-    "wpstart": "wp-scripts start",
-    "start": "npm-run-all --parallel wpstart tailwindwatch",
-    "build": "npm-run-all --parallel wpbuild tailwindbuild",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
     "tailwindbuild": "tailwindcss -i ./src/index.css -o ./build/index.css --minify",
     "tailwindwatch": "tailwindcss -i ./src/index.css -o ./build/index.css --watch --minify"
   },
@@ -23,6 +21,10 @@
     "webpack": "^5.88.2"
   },
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.4"
+    "@tailwindcss/forms": "^0.5.4",
+    "autoprefixer": "^10.4.14",
+    "browser-sync": "^2.29.3",
+    "postcss": "^8.4.27",
+    "postcss-nested": "^6.0.1"
   }
 }
