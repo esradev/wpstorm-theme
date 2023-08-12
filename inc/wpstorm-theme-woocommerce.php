@@ -43,15 +43,69 @@ class Wpstorm_Theme_Woocommerce
     public function __construct()
     {
         // Override WooCommerce single product template
-        add_filter('single_template', [$this, 'wpstorm_theme_single_product_template']);
+        add_filter('single_template', [$this, 'single_product_template']);
+        add_filter('template_include', [$this, 'cart_template']);
+        add_filter('template_include', [$this, 'checkout_template']);
+        add_filter('template_include', [$this, 'shop_template']);
+        add_filter('template_include', [$this, 'my_account_template']);
+
+
+        add_action('wp_ajax_remove_cart_item', [$this, 'remove_cart_item']);
+        add_action('wp_ajax_nopriv_remove_cart_item', [$this, 'remove_cart_item']); // Allow non-logged-in users to use the AJAX action
+
+
     }
 
-    public function wpstorm_theme_single_product_template($template)
+    public function single_product_template($template)
     {
         if (is_singular('product')) {
             $template = get_template_directory() . '/woocommerce/templates/single-product.php';
         }
         return $template;
+    }
+
+    public function cart_template($template) {
+        if (is_cart()) {
+            return get_template_directory() . '/woocommerce/templates/cart/cart-template.php';
+        }
+        return $template;
+    }
+
+    public function checkout_template($template) {
+        if (is_checkout()) {
+            return get_template_directory() . '/woocommerce/templates/checkout/checkout-template.php';
+        }
+        return $template;
+    }
+
+    function shop_template($template) {
+        if (is_shop()) {
+            $custom_template = get_template_directory() . '/woocommerce/templates/shop/shop-template.php';
+            if (!empty($custom_template)) {
+                return $custom_template;
+            }
+        }
+        return $template;
+    }
+
+    function my_account_template($template) {
+        if (is_account_page()) {
+            $custom_template = get_template_directory() . '/woocommerce/templates/my-account/my-account-template.php';
+            if (!empty($custom_template)) {
+                return $custom_template;
+            }
+        }
+        return $template;
+    }
+
+    public function remove_cart_item() {
+        if (isset($_POST['cart_item_key'])) {
+            $cart_item_key = sanitize_text_field($_POST['cart_item_key']);
+            WC()->cart->remove_cart_item($cart_item_key);
+
+            echo json_encode(array('success' => true));
+        }
+        wp_die();
     }
 }
 

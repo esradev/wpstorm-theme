@@ -6,6 +6,8 @@
   "scripts": {
     "build": "wp-scripts build",
     "start": "wp-scripts start",
+    "build:my-account": "wp-scripts build src/my-account/index.js --output-path=build/my-account",
+    "start:my-account": "wp-scripts start src/my-account/index.js --output-path=build/my-account",
     "tailwindbuild": "tailwindcss -i ./src/index.css -o ./build/index.css --minify",
     "tailwindwatch": "tailwindcss -i ./src/index.css -o ./build/index.css --watch --minify"
   },
@@ -21,10 +23,17 @@
     "webpack": "^5.88.2"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.16",
+    "@heroicons/react": "^2.0.18",
     "@tailwindcss/forms": "^0.5.4",
+    "@wordpress/element": "^5.16.0",
+    "@wordpress/i18n": "^4.39.0",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
     "browser-sync": "^2.29.3",
     "postcss": "^8.4.27",
-    "postcss-nested": "^6.0.1"
+    "postcss-nested": "^6.0.1",
+    "react": "^18.2.0",
+    "react-router-dom": "^6.15.0"
   }
 }
