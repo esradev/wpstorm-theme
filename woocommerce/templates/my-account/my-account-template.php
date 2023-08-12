@@ -2,7 +2,7 @@
 get_header();
 ?>
     <div class="flex grow flex-col-2">
-        <div class="flex gap-y-5 overflow-y-hidden px-6 py-6 bg-white my-3">
+        <div class="flex grow gap-y-5 overflow-y-hidden px-6 py-6 bg-white my-3">
             <nav class="flex flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
                     <li>
@@ -130,7 +130,7 @@ get_header();
             </nav>
         </div>
 
-        <div class="flex flex-1 px-6 py-6">
+        <div class="flex grow px-6 py-6 my-3">
             <div>
                 <h2 class="text-sm font-medium text-gray-500">Pinned Projects</h2>
                 <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
@@ -441,8 +441,6 @@ get_header();
             </div>
 
         </div>
-
-
     </div>
 <?php
 get_footer();

@@ -143,7 +143,7 @@
                 <a href="<?php echo esc_url(wp_login_url()) ?>"
                    class="text-sm font-semibold leading-6 text-gray-900"><?php echo __('Login', 'wpstorm-theme') ?></a>
                 <a href="<?php echo esc_url(wp_registration_url()) ?>"
-                   class="text-sm font-semibold leading-6 text-gray-900"><?php echo __('Sing up', 'wpstorm-theme') ?></a>
+                   class="text-sm font-semibold leading-6 text-gray-900"><?php echo __('Sign up', 'wpstorm-theme') ?></a>
             <?php } ?>
 
         </div>
