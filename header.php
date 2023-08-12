@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-    <title><?php bloginfo( 'name' ); wp_title(); ?></title>
-    <meta name="description" content="<?php bloginfo( 'description' ); ?>">
+    <title><?php bloginfo('name');
+        wp_title(); ?></title>
+    <meta name="description" content="<?php bloginfo('description'); ?>">
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
@@ -37,7 +38,7 @@
         </div>
         <div class="hidden lg:flex lg:gap-x-12">
             <?php
-            $menu_items = wp_get_nav_menu_items('main-menu');
+            $menu_items = Wpstorm_Theme_Menus::get_menu_items_by_location('primary-menu');
 
             if ($menu_items) {
                 foreach ($menu_items as $menu_item) {
@@ -54,7 +55,12 @@
                         if ($submenu_items) {
                             echo '<div class="absolute -left-8 top-full z-10 mt-3 w-96 rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5 hidden">';
                             foreach ($submenu_items as $submenu_item) {
-                                echo '<div class="relative rounded-lg p-4 hover:bg-gray-50">';
+                                $classes = 'relative rounded-lg p-4 hover:bg-gray-100';
+                                // Compare the current menu item's URL with the current page URL
+                                if (strcasecmp($submenu_item->url, get_permalink()) === 0) {
+                                    $classes .= ' bg-gray-50';
+                                }
+                                echo '<div class="' . $classes .'">';
                                 echo '<a href="' . esc_url($submenu_item->url) . '" class="block text-sm font-semibold leading-6 text-gray-900">';
                                 echo esc_html($submenu_item->title);
                                 echo '<span class="absolute inset-0"></span>';
@@ -78,33 +84,61 @@
             }
             ?>
         </div>
-        <script>
-            const submenuToggles = document.querySelectorAll('.submenu-toggle');
-            submenuToggles.forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    const submenuContent = toggle.nextElementSibling;
-                    submenuContent.classList.toggle('hidden');
-                });
-            });
-        </script>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-6">
             <?php if (is_user_logged_in()) { ?>
-                <a href="<?php echo esc_url(get_author_posts_url(get_current_user_id())) ?>"
-                   class="group block flex-shrink-0">
-                    <div class="flex items-center">
-                        <div>
+
+                <div class="relative inline-block">
+                    <a href="#"
+                       id="user-profile-actions-toggle"
+                       class="group block flex-shrink-0">
+                        <div class="flex items-center">
                             <img
                                     class="inline-block h-9 w-9 rounded-full"
                                     src="<?php echo get_avatar_url(get_current_user_id()); ?>"
                                     alt=""
                             />
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900"><?php echo esc_html(wp_get_current_user()->display_name) ?></p>
+                                <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700"><?php echo __('Actions', 'wpstorm-theme') ?></p>
+                            </div>
                         </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900"><?php echo esc_html(wp_get_current_user()->display_name) ?></p>
-                            <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700"><?php echo __('View Profile', 'wpstorm-theme') ?></p>
+                    </a>
+                    <div id="user-profile-actions-div"
+                         class="absolute hidden right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div class="px-4 py-3" role="none">
+                            <p class="text-sm" role="none"><?php echo __('Signed in as', 'wpstorm-theme'); ?></p>
+                            <p class="truncate text-sm font-medium text-gray-900"
+                               role="none"><?php echo esc_html(get_userdata(get_current_user_id())->data->user_email); ?></p>
+                        </div>
+                        <?php
+                        // Get the menu items for your desired menu location (replace 'primary' with your menu location)
+                        $menu_items = Wpstorm_Theme_Menus::get_menu_items_by_location('user-profile-actions-menu');
+
+                        echo '<div class="py-1" role="none">';
+                        if ($menu_items) {
+                            foreach ($menu_items as $menu_item) {
+                                $classes = 'text-gray-900 block px-4 py-2 text-sm hover:bg-gray-100';
+
+                                // Compare the current menu item's URL with the current page URL
+                                if (strcasecmp($menu_item->url, get_permalink()) === 0) {
+                                    $classes .= ' bg-gray-100';
+                                }
+
+                                // Generate the HTML for the menu item
+                                echo '<a href="' . esc_url($menu_item->url) . '" class="' . $classes . '" role="menuitem" tabindex="-1" id="menu-item-' . esc_attr($menu_item->ID) . '">' . esc_html($menu_item->title) . '</a>';
+                            }
+                        }
+                        echo '</div>';
+                        ?>
+                        <div class="py-1" role="none">
+                            <a href="<?php echo esc_url(wp_logout_url()); ?>"
+                               class="text-gray-700 block w-full px-4 py-2 text-left text-sm hover:bg-red-300"
+                               role="menuitem" tabindex="-1" id="menu-item-3">Sign out
+                            </a>
                         </div>
                     </div>
-                </a>
+                </div>
             <?php } else { ?>
                 <a href="<?php echo esc_url(wp_login_url()) ?>"
                    class="text-sm font-semibold leading-6 text-gray-900"><?php echo __('Login', 'wpstorm-theme') ?></a>
@@ -145,7 +179,7 @@
                     <div class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
                             <?php
-                            $menu_items = wp_get_nav_menu_items('main-menu');
+                            $menu_items = Wpstorm_Theme_Menus::get_menu_items_by_location('primary-mobile-menu');
                             if ($menu_items) {
                                 foreach ($menu_items as $menu_item) {
                                     if (Wpstorm_Theme_Menus::has_submenu_items($menu_items, $menu_item->ID)) {
@@ -157,7 +191,12 @@
                                         $submenu_items = Wpstorm_Theme_Menus::get_submenu_items($menu_items, $menu_item->ID);
                                         if ($submenu_items) {
                                             foreach ($submenu_items as $submenu_item) {
-                                                echo '<a href="' . esc_url($submenu_item->url) . '" class="-mx-5 block rounded-lg px-6 py-2 text-sm font-light leading-7 text-gray-900 hover:bg-gray-50">';
+                                                $classes = '-mx-5 block rounded-lg px-6 py-2 text-sm font-light leading-7 text-gray-700 hover:bg-gray-100';
+                                                // Compare the current menu item's URL with the current page URL
+                                                if (strcasecmp($submenu_item->url, get_permalink()) === 0) {
+                                                    $classes .= ' text-gray-900 bg-gray-100';
+                                                }
+                                                echo '<a href="' . esc_url($submenu_item->url) . '" class="'. $classes .'">';
                                                 echo esc_html($submenu_item->title);
                                                 echo '</a>';
                                             }
@@ -195,6 +234,14 @@
 
     <!-- The script to open and close the menu on the mobile. -->
     <script>
+        const submenuToggles = document.querySelectorAll('.submenu-toggle');
+        submenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const submenuContent = toggle.nextElementSibling;
+                submenuContent.classList.toggle('hidden');
+            });
+        });
+
         const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
         const mobileMenuOpenButton = document.getElementById('mobile-menu-open-button');
         const mobileMenu = document.getElementById('mobile-menu-div');
@@ -208,6 +255,16 @@
             mobileMenuOpenButton.addEventListener('click', () => {
                 mobileMenu.classList.remove('hidden');
             })
+        }
+
+        const userProfileActionsToggle = document.getElementById('user-profile-actions-toggle');
+        const userProfileActionsDiv = document.getElementById('user-profile-actions-div');
+
+        if (userProfileActionsDiv && userProfileActionsToggle) {
+            userProfileActionsToggle.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent the link's default behavior
+                userProfileActionsDiv.classList.toggle('hidden');
+            });
         }
     </script>
 </header>
