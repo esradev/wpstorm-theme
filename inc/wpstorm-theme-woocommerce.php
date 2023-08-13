@@ -69,7 +69,7 @@ class Wpstorm_Theme_Woocommerce
     public function cart_template($template)
     {
         if (is_cart() && WC()->cart->is_empty()) {
-            return get_template_directory() . '/woocommerce/templates/cart/empty_cart_template.php';
+            return get_template_directory() . '/woocommerce/templates/cart/empty-cart-template.php';
         } elseif (is_cart()) {
             return get_template_directory() . '/woocommerce/templates/cart/cart-template.php';
         }
