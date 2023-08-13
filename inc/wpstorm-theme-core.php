@@ -133,6 +133,18 @@ class Wpstorm_Theme_Core
         }
     }
 
+    public static function get_header_template() {
+        //TODO Get the template_name from what admin want by get_option('header_template)
+        $template_name = 'header-one';
+        return 'templates/headers/' . $template_name;
+    }
+
+    public static function get_footer_template() {
+        //TODO Get the template_name from what admin want by get_option('footer_template)
+        $template_name = 'footer-store-dark';
+        return 'templates/footers/' . $template_name;
+    }
+
 }
 
 Wpstorm_Theme_Core::get_instance();
