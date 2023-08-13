@@ -42,14 +42,23 @@ class Wpstorm_Theme_Assets
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', [$this, 'load_main_assets']);
-        add_action('wp_enqueue_scripts', [$this, 'load_main_assets']);
+        add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_main_assets']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_main_assets']);
         add_action('wp_enqueue_scripts', [$this, 'load_assets']);
     }
 
-    public function load_main_assets() {
-        wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), '1.0.0', true);
-        wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'));
+    public function admin_enqueue_main_assets()
+    {
+        if (isset($_GET['page']) && $_GET['page'] === 'wpstorm-theme-settings') {
+            wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Theme_Constants::VERSION, true);
+            wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Theme_Constants::VERSION, 'all');
+        }
+    }
+
+    public function enqueue_main_assets()
+    {
+        wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Theme_Constants::VERSION, true);
+        wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Theme_Constants::VERSION, 'all');
         wp_localize_script('wpstormthemejs', 'wpstorm_theme_script_vars', array(
             'admin_ajax_url' => admin_url('admin-ajax.php'),
         ));
@@ -57,7 +66,7 @@ class Wpstorm_Theme_Assets
 
     public function load_assets()
     {
-        wp_enqueue_script('header-script', get_template_directory_uri() . '/assets/js/header-script.js', array('jquery'), null, true);
+        wp_enqueue_script('header-script', get_template_directory_uri() . '/assets/js/header-script.js', array('jquery'), Wpstorm_Theme_Constants::VERSION, true);
 
         //remove_woocommerce_styles
         if (class_exists('WooCommerce')) {
@@ -68,7 +77,7 @@ class Wpstorm_Theme_Assets
         }
 
         if (is_cart()) { // Only load the script on the cart page
-            wp_enqueue_script('cart-script', get_template_directory_uri() . '/woocommerce/templates/cart/cart-script.js', array('jquery'), null, true);
+            wp_enqueue_script('cart-script', get_template_directory_uri() . '/woocommerce/templates/cart/cart-script.js', array('jquery'), Wpstorm_Theme_Constants::VERSION, true);
         }
     }
 }

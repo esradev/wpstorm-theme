@@ -46,7 +46,7 @@ const App = () => {
         <HashRouter>
             <StateContext.Provider value={state} >
                 <DispatchContext.Provider value={dispatch}>
-                    <div className="flex grow flex-col-2">
+                        <div className="flex grow flex-col-2">
                             <Sidebar/>
                             <div className="flex grow px-6 py-6 my-3">
                                 <div>

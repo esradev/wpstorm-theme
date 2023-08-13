@@ -63,7 +63,7 @@ class Wpstorm_Theme_Core
     public function settings_page() {
         ?>
         <div class="wrap">
-            <div id="wpstorm-theme-settings-dashboard"></div>
+            <div id="wpstorm-theme-settings-dashboard" class="wpstorm-theme-tw-class"></div>
         </div>
         <?php
     }

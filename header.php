@@ -10,7 +10,7 @@
     <title><?php echo esc_html(wp_title()); ?></title>
     <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class('wpstorm-theme-tw-class'); ?>>
 <header class="bg-white shadow-md">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
