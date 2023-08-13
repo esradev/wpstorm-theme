@@ -45,6 +45,9 @@ class Wpstorm_Theme_Assets
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_main_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_main_assets']);
         add_action('wp_enqueue_scripts', [$this, 'load_assets']);
+
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_fonts']);
+
     }
 
     public function admin_enqueue_main_assets()
@@ -79,6 +82,21 @@ class Wpstorm_Theme_Assets
         if (is_cart()) { // Only load the script on the cart page
             wp_enqueue_script('cart-script', get_template_directory_uri() . '/woocommerce/templates/cart/cart-script.js', array('jquery'), Wpstorm_Theme_Constants::VERSION, true);
         }
+    }
+
+    public function enqueue_fonts() {
+        //TODO Get the font chosen by the admin, and store it in a variable.
+        // Then load the CSS file of that font based on the selected font.
+        // The name of all fonts in their CSS file must be Wpstorm.
+        // Example: $selected_font = get_option('selected-font')
+        // if ($selected_font !== 'default-font') {
+        //   $font_file_url = get_template_directory_uri() . '/fonts/' . $selected_font . '/' . $selected_font . '.css';
+        //   wp_enqueue_style('custom-font', $font_file_url);
+        //  }
+        // default-font can be the default one that you chose.
+
+        $font_file_url = get_template_directory_uri() . '/assets/fonts/iran-sans/iran-sans.css';
+        wp_enqueue_style('wpstorm-font', $font_file_url);
     }
 }
 
