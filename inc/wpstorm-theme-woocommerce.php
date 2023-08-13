@@ -51,18 +51,11 @@ class Wpstorm_Theme_Woocommerce
 
         add_action('woocommerce_thankyou', [$this, 'thank_you_template']);
 
-        add_action('login_init', [$this, 'redirect_to_custom_login']);
-        add_filter( 'login_url', [$this, 'custom_login_url'] );
-        add_filter( 'registration_url', [$this, 'custom_registration_url'] );
-        add_filter( 'template_include', [$this, 'login_page_template'] );
 
 
 
         add_action('wp_ajax_remove_cart_item', [$this, 'remove_cart_item']);
         add_action('wp_ajax_nopriv_remove_cart_item', [$this, 'remove_cart_item']); // Allow non-logged-in users to use the AJAX action
-
-        self::create_login_signup_page();
-
     }
 
     public function single_product_template($template)
@@ -120,52 +113,6 @@ class Wpstorm_Theme_Woocommerce
 
         if ($order) {
             return get_template_directory() . '/woocommerce/templates/thank-you/thank-you-template.php';
-        }
-    }
-
-
-    public function redirect_to_custom_login()
-    {
-        if (!is_user_logged_in()) {
-            wp_redirect(home_url('/login-signup/'));
-            exit();
-        }
-    }
-
-    public function custom_login_url( $login_url ) {
-        return home_url( 'login-signup' ); // Replace with your page slug
-    }
-
-    public function custom_registration_url( $registration_url ) {
-        return home_url( 'login-signup' ); // Replace with your page slug
-    }
-
-    function login_page_template( $template ) {
-        if ( is_page( 'login-signup' ) ) { // Replace with the actual slug of your page
-            return get_template_directory() . '/templates/login-template.php';
-        }
-        return $template;
-    }
-
-    public static function create_login_signup_page() {
-        $page_content = ''; // You can set the initial content for the page if needed
-        $page_slug = 'login-signup';
-
-        // Check if the page doesn't exist already
-        $page = get_page_by_path($page_slug);
-
-        if (!$page) {
-            // Set up the page arguments
-            $page_args = array(
-                'post_title' => 'Login & Signup',
-                'post_content' => $page_content,
-                'post_status' => 'publish',
-                'post_type' => 'page',
-                'post_name' => $page_slug
-            );
-
-            // Insert the page
-            wp_insert_post($page_args);
         }
     }
 
