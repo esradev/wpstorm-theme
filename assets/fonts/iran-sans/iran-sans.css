@@ -1,5 +1,9 @@
 @font-face {
     font-family: 'Wpstorm';
     src: url('IRANSansWeb.woff2') format('woff2'),
-    url('IRANSansWeb.woff') format('woff');
+    url('IRANSansWeb.woff') format('woff'),
+    url('IRANSansWeb.ttf') format('truetype'),
+    url('IRANSansWeb.eot') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
 }

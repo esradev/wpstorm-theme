@@ -56,11 +56,13 @@ class Wpstorm_Theme_Core
 //        self::create_login_signup_page();
     }
 
-    public function add_theme_menu() {
+    public function add_theme_menu()
+    {
         add_menu_page('Wpstorm Theme Settings', 'Wpstorm Theme Settings', 'manage_options', 'wpstorm-theme-settings', [$this, 'settings_page']);
     }
 
-    public function settings_page() {
+    public function settings_page()
+    {
         ?>
         <div class="wrap">
             <div id="wpstorm-theme-settings-dashboard" class="wpstorm-theme-tw-class"></div>
@@ -96,22 +98,26 @@ class Wpstorm_Theme_Core
         }
     }
 
-    public function custom_login_url( $login_url ) {
-        return home_url( 'login-signup' ); // Replace with your page slug
+    public function custom_login_url($login_url)
+    {
+        return home_url('login-signup'); // Replace with your page slug
     }
 
-    public function custom_registration_url( $registration_url ) {
-        return home_url( 'login-signup' ); // Replace with your page slug
+    public function custom_registration_url($registration_url)
+    {
+        return home_url('login-signup'); // Replace with your page slug
     }
 
-    function login_page_template( $template ) {
-        if ( is_page( 'login-signup' ) ) { // Replace with the actual slug of your page
+    function login_page_template($template)
+    {
+        if (is_page('login-signup')) { // Replace with the actual slug of your page
             return get_template_directory() . '/templates/login-template.php';
         }
         return $template;
     }
 
-    public static function create_login_signup_page() {
+    public static function create_login_signup_page()
+    {
         $page_content = ''; // You can set the initial content for the page if needed
         $page_slug = 'login-signup';
 
@@ -133,28 +139,38 @@ class Wpstorm_Theme_Core
         }
     }
 
-    public static function get_header_template() {
+    public static function get_header_template()
+    {
         //TODO Get the template_name from what admin want by get_option('header_template')
         $template_name = 'header-one';
         return 'templates/headers/' . $template_name;
     }
 
-    public static function get_footer_template() {
+    public static function get_footer_template()
+    {
         //TODO Get the template_name from what admin want by get_option('footer_template')
         $template_name = 'footer-one';
         return 'templates/footers/' . $template_name;
     }
 
-    public static function get_404_template(){
+    public static function get_404_template()
+    {
         //TODO Get the template_name from what admin want by get_option('404_template')
         $template_name = '404-split-img';
         return 'templates/404/' . $template_name;
     }
 
-    public static function get_post_list_template(){
+    public static function get_post_list_template()
+    {
         //TODO Get the template_name from what admin want by get_option('post_list_template')
         $template_name = 'list-2';
         return 'templates/posts/lists/' . $template_name;
+    }
+
+    public static function get_hero_section_template()
+    {
+        $template_name = 'simple-centered';
+        return 'templates/sections/heroes/' . $template_name;
     }
 
 }
