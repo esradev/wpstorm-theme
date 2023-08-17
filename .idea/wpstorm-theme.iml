@@ -34,6 +34,7 @@
       <sourceFolder url="file://$MODULE_DIR$/lib/kirki/kirki-packages/module-panels/src" isTestSource="false" packagePrefix="Kirki" />
       <sourceFolder url="file://$MODULE_DIR$/lib/kirki/kirki-packages/module-sections/src" isTestSource="false" packagePrefix="Kirki" />
       <sourceFolder url="file://$MODULE_DIR$/lib/kirki/kirki-packages/url-getter/src" isTestSource="false" packagePrefix="Kirki" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

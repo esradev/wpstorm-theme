@@ -1,6 +1,6 @@
 <?php
 
-get_template_part(Wpstorm_Theme_Core::get_footer_template());
+get_template_part(Wpstorm_Templates::get_footer_template());
 
 wp_footer();
 

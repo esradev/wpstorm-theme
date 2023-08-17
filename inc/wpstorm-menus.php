@@ -1,6 +1,6 @@
 <?php
 /**
- * Wpstorm_Theme_Menus
+ * Wpstorm_Menus
  *
  * @since 1.0.0
  */
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Wpstorm_Theme_Menus
+class Wpstorm_Menus
 {
     /**
      * Instance
@@ -98,4 +98,4 @@ class Wpstorm_Theme_Menus
     }
 }
 
-Wpstorm_Theme_Menus::get_instance();
+Wpstorm_Menus::get_instance();

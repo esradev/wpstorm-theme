@@ -1,6 +1,6 @@
 <?php
 /**
- * Wpstorm_Theme_Core
+ * Wpstorm_Core
  *
  * @since 1.0.0
  */
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Wpstorm_Theme_Core
+class Wpstorm_Core
 {
     public static $actual_link;
     /**
@@ -138,44 +138,9 @@ class Wpstorm_Theme_Core
             wp_insert_post($page_args);
         }
     }
-
-    public static function get_header_template()
-    {
-        //TODO Get the template_name from what admin want by get_option('header_template')
-        $template_name = 'header-one';
-        return 'templates/headers/' . $template_name;
-    }
-
-    public static function get_footer_template()
-    {
-        //TODO Get the template_name from what admin want by get_option('footer_template')
-        $template_name = 'footer-one';
-        return 'templates/footers/' . $template_name;
-    }
-
-    public static function get_404_template()
-    {
-        //TODO Get the template_name from what admin want by get_option('404_template')
-        $template_name = '404-split-img';
-        return 'templates/404/' . $template_name;
-    }
-
-    public static function get_post_list_template()
-    {
-        //TODO Get the template_name from what admin want by get_option('post_list_template')
-        $template_name = 'list-2';
-        return 'templates/posts/lists/' . $template_name;
-    }
-
-    public static function get_hero_section_template()
-    {
-        $template_name = 'simple-centered';
-        return 'templates/sections/heroes/' . $template_name;
-    }
-
 }
 
-Wpstorm_Theme_Core::get_instance();
+Wpstorm_Core::get_instance();
 
 
 

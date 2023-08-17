@@ -25,11 +25,11 @@
 </div>
 <div class="hidden lg:flex lg:gap-x-12">
     <?php
-    $menu_items = Wpstorm_Theme_Menus::get_menu_items_by_location('primary-menu');
+    $menu_items = Wpstorm_Menus::get_menu_items_by_location('primary-menu');
 
     if ($menu_items) {
         foreach ($menu_items as $menu_item) {
-            if (Wpstorm_Theme_Menus::has_submenu_items($menu_items, $menu_item->ID)) {
+            if (Wpstorm_Menus::has_submenu_items($menu_items, $menu_item->ID)) {
                 echo '<div class="relative">';
                 echo '<button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 submenu-toggle" aria-expanded="false">';
                 echo esc_html($menu_item->title);
@@ -38,7 +38,7 @@
                 echo '</svg>';
                 echo '</button>';
 
-                $submenu_items = Wpstorm_Theme_Menus::get_submenu_items($menu_items, $menu_item->ID);
+                $submenu_items = Wpstorm_Menus::get_submenu_items($menu_items, $menu_item->ID);
                 if ($submenu_items) {
                     echo '<div class="absolute -left-8 top-full z-10 mt-3 w-96 rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5 hidden">';
                     foreach ($submenu_items as $submenu_item) {
@@ -100,7 +100,7 @@
                 </div>
                 <?php
                 // Get the menu items for your desired menu location (replace 'primary' with your menu location)
-                $menu_items = Wpstorm_Theme_Menus::get_menu_items_by_location('user-profile-actions-menu');
+                $menu_items = Wpstorm_Menus::get_menu_items_by_location('user-profile-actions-menu');
 
                 echo '<div class="py-1" role="none">';
                 if ($menu_items) {
@@ -166,16 +166,16 @@
                 <div class="-my-6 divide-y divide-gray-500/10">
                     <div class="space-y-2 py-6">
                         <?php
-                        $menu_items = Wpstorm_Theme_Menus::get_menu_items_by_location('primary-mobile-menu');
+                        $menu_items = Wpstorm_Menus::get_menu_items_by_location('primary-mobile-menu');
                         if ($menu_items) {
                             foreach ($menu_items as $menu_item) {
-                                if (Wpstorm_Theme_Menus::has_submenu_items($menu_items, $menu_item->ID)) {
+                                if (Wpstorm_Menus::has_submenu_items($menu_items, $menu_item->ID)) {
 
                                     echo '<a href="' . esc_url($menu_item->url) . '" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">';
                                     echo esc_html($menu_item->title);
                                     echo '</a>';
 
-                                    $submenu_items = Wpstorm_Theme_Menus::get_submenu_items($menu_items, $menu_item->ID);
+                                    $submenu_items = Wpstorm_Menus::get_submenu_items($menu_items, $menu_item->ID);
                                     if ($submenu_items) {
                                         foreach ($submenu_items as $submenu_item) {
                                             $classes = '-mx-5 block rounded-lg px-6 py-2 text-sm font-light leading-7 text-gray-700 hover:bg-gray-100';

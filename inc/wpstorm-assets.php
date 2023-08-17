@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Wpstorm_Theme_Assets
+class Wpstorm_Assets
 {
     public static $actual_link;
     /**
@@ -53,15 +53,15 @@ class Wpstorm_Theme_Assets
     public function admin_enqueue_main_assets()
     {
         if (isset($_GET['page']) && $_GET['page'] === 'wpstorm-theme-settings') {
-            wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Theme_Constants::VERSION, true);
-            wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Theme_Constants::VERSION, 'all');
+            wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Constants::VERSION, true);
+            wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
         }
     }
 
     public function enqueue_main_assets()
     {
-        wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Theme_Constants::VERSION, true);
-        wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Theme_Constants::VERSION, 'all');
+        wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Constants::VERSION, true);
+        wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
         wp_localize_script('wpstormthemejs', 'wpstorm_theme_script_vars', array(
             'admin_ajax_url' => admin_url('admin-ajax.php'),
         ));
@@ -69,7 +69,7 @@ class Wpstorm_Theme_Assets
 
     public function load_assets()
     {
-        wp_enqueue_script('header-script', get_template_directory_uri() . '/assets/js/header-script.js', array('jquery'), Wpstorm_Theme_Constants::VERSION, true);
+        wp_enqueue_script('header-script', get_template_directory_uri() . '/assets/js/header-script.js', array('jquery'), Wpstorm_Constants::VERSION, true);
 
         //remove_woocommerce_styles
         if (class_exists('WooCommerce')) {
@@ -80,13 +80,13 @@ class Wpstorm_Theme_Assets
         }
 
         if (is_cart()) { // Only load the script on the cart page
-            wp_enqueue_script('cart-script', get_template_directory_uri() . '/woocommerce/templates/cart/cart-script.js', array('jquery'), Wpstorm_Theme_Constants::VERSION, true);
+            wp_enqueue_script('cart-script', get_template_directory_uri() . '/woocommerce/templates/cart/cart-script.js', array('jquery'), Wpstorm_Constants::VERSION, true);
         }
     }
 
     public function enqueue_fonts() {
-        //TODO Get the font chosen by the admin, and store it in a variable.
-        // Then load the CSS file of that font based on the selected font.
+        // TODO Get the font chosen by the admin, and store it in a variable
+        //.Then load the CSS file of that font based on the selected font.
         // The name of all fonts in their CSS file must be Wpstorm.
         // Example: $selected_font = get_option('selected-font')
         // if ($selected_font !== 'default-font') {
@@ -100,4 +100,4 @@ class Wpstorm_Theme_Assets
     }
 }
 
-Wpstorm_Theme_Assets::get_instance();
+Wpstorm_Assets::get_instance();

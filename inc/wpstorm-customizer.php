@@ -1,6 +1,6 @@
 <?php
 /**
- * Wpstorm_Theme_Customizer
+ * Wpstorm_Customizer
  *
  * @since 1.0.0
  */
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Wpstorm_Theme_Customizer
+class Wpstorm_Customizer
 {
     public static $actual_link;
     /**
@@ -117,4 +117,4 @@ class Wpstorm_Theme_Customizer
     }
 }
 
-Wpstorm_Theme_Customizer::get_instance();
+Wpstorm_Customizer::get_instance();

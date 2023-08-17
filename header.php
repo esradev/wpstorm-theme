@@ -12,5 +12,5 @@
 </head>
 <body <?php body_class('wpstorm-theme-tw-class'); ?>>
 
-<?php get_template_part(Wpstorm_Theme_Core::get_header_template()); ?>
+<?php get_template_part(Wpstorm_Templates::get_header_template()); ?>
 

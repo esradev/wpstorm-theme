@@ -20,7 +20,7 @@ get_header();
 
                     // Loop through the latest posts
                     while ($latest_posts->have_posts()) : $latest_posts->the_post();
-                        get_template_part(Wpstorm_Theme_Core::get_post_list_template());
+                        get_template_part(Wpstorm_Templates::get_post_list_template());
                     endwhile;
 
                     // Add pagination links
