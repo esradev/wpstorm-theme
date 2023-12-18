@@ -1,4 +1,4 @@
-<header class="bg-white shadow-md">
+<header class="bg-white shadow-md mb-3">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
             <a href="<?php echo site_url() ?>" class="-m-1.5 p-1.5 flex items-center justify-center">
