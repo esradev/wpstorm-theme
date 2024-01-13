@@ -1,7 +1,7 @@
 {
   "name": "wpstorm-theme",
   "version": "1.0.0",
-  "description": "",
+  "description": "Wpstorm-Theme - A Sleek WordPress Experience Powered by Tailwind CSS",
   "main": "index.js",
   "scripts": {
     "build": "wp-scripts build",
@@ -12,7 +12,7 @@
     "tailwindwatch": "tailwindcss -i ./src/index.css -o ./build/index.css --watch --minify"
   },
   "keywords": [],
-  "author": "",
+  "author": "esradev",
   "license": "ISC",
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
