@@ -101,4 +101,3 @@ Need help or have a question? Check out our [Support Page](link-to-support) for 
 ---
 
 Thank you for choosing [Wpstorm Theme]! We hope you enjoy creating a stunning website with our Tailwind CSS-powered WordPress theme.
-
