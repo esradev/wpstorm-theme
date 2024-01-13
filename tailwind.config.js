@@ -1,22 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-    content: ["./**/*.php", "./src/**/*.js"],
+    content: ['./**/*.php', './src/**/*.js'],
     theme: {
         extend: {
             fontFamily: {
-                'sans': ['Wpstorm', ...defaultTheme.fontFamily.sans],
-                'mono': ['Wpstorm', ...defaultTheme.fontFamily.mono],
-                'serif': ['Wpstorm', ...defaultTheme.fontFamily.serif]
-            }
-        }
+                sans: ['Wpstorm', ...defaultTheme.fontFamily.sans],
+                mono: ['Wpstorm', ...defaultTheme.fontFamily.mono],
+                serif: ['Wpstorm', ...defaultTheme.fontFamily.serif],
+            },
+        },
     },
     plugins: [
-        require("@tailwindcss/typography"),
-        require('@tailwindcss/forms')
+        require('@tailwindcss/typography'),
+        require('@tailwindcss/forms'),
     ],
-    important: '.wpstorm-theme-tw-class',
-}
-
+    // important: '.wpstorm-theme-tw-class',
+};

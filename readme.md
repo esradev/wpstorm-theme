@@ -143,4 +143,70 @@ Wpstorm Theme is released under the [License Name] License. See the [LICENSE](li
 
 Feel free to explore each feature in more detail through the provided documentation links.
 
+# Sponsors
+
+A big thank you to our sponsors for their generous support! Their contributions help make [Theme Name] possible.
+
+## Platinum Sponsors
+
+### [Platinum Sponsor 1]
+
+[![Platinum Sponsor 1](https://placekitten.com/200/100)](https://example-platinum-sponsor-1.com)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel semper mauris. [Visit Platinum Sponsor 1](https://example-platinum-sponsor-1.com)
+
+### [Platinum Sponsor 2]
+
+[![Platinum Sponsor 2](https://placekitten.com/200/100)](https://example-platinum-sponsor-2.com)
+
+Sed eu metus sed arcu pharetra tristique. Curabitur ac lectus quis orci tincidunt mattis. [Visit Platinum Sponsor 2](https://example-platinum-sponsor-2.com)
+
+## Gold Sponsors
+
+### [Gold Sponsor 1]
+
+[![Gold Sponsor 1](https://placekitten.com/200/100)](https://example-gold-sponsor-1.com)
+
+Duis vel justo euismod, ultricies quam vel, vulputate purus. Nam varius euismod facilisis. [Visit Gold Sponsor 1](https://example-gold-sponsor-1.com)
+
+### [Gold Sponsor 2]
+
+[![Gold Sponsor 2](https://placekitten.com/200/100)](https://example-gold-sponsor-2.com)
+
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. [Visit Gold Sponsor 2](https://example-gold-sponsor-2.com)
+
+## Silver Sponsors
+
+### [Silver Sponsor 1]
+
+[![Silver Sponsor 1](https://placekitten.com/200/100)](https://example-silver-sponsor-1.com)
+
+Curabitur in felis vel sapien dignissim luctus. Ut nec facilisis purus. [Visit Silver Sponsor 1](https://example-silver-sponsor-1.com)
+
+### [Silver Sponsor 2]
+
+[![Silver Sponsor 2](https://placekitten.com/200/100)](https://example-silver-sponsor-2.com)
+
+Maecenas tristique justo et augue condimentum, ac malesuada quam ultrices. [Visit Silver Sponsor 2](https://example-silver-sponsor-2.com)
+
+## Bronze Sponsors
+
+### [Bronze Sponsor 1]
+
+[![Bronze Sponsor 1](https://placekitten.com/200/100)](https://example-bronze-sponsor-1.com)
+
+Donec aliquet, tortor eu ultrices tristique, quam elit volutpat quam, a bibendum lectus mauris vitae purus. [Visit Bronze Sponsor 1](https://example-bronze-sponsor-1.com)
+
+### [Bronze Sponsor 2]
+
+[![Bronze Sponsor 2](https://placekitten.com/200/100)](https://example-bronze-sponsor-2.com)
+
+Integer nec arcu sit amet tellus placerat tristique. [Visit Bronze Sponsor 2](https://example-bronze-sponsor-2.com)
+
+---
+
+_Interested in becoming a sponsor? Contact us at sponsorship@example.com._
+
+---
+
 Thank you for choosing Wpstorm Theme! We hope you enjoy creating a stunning website with our Tailwind CSS-powered WordPress theme.

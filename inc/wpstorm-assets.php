@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Wpstorm_Theme_Assets
  *
@@ -47,22 +48,21 @@ class Wpstorm_Assets
         add_action('wp_enqueue_scripts', [$this, 'load_assets']);
 
         add_action('wp_enqueue_scripts', [$this, 'enqueue_fonts']);
-
     }
 
     public function admin_enqueue_main_assets()
     {
         if (isset($_GET['page']) && $_GET['page'] === 'wpstorm-theme-settings') {
-            wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Constants::VERSION, true);
-            wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
+            wp_enqueue_script('wpstorm-theme-js', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Constants::VERSION, true);
+            wp_enqueue_style('wpstorm-theme-css', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
         }
     }
 
     public function enqueue_main_assets()
     {
-        wp_enqueue_script('wpstormthemejs', get_theme_file_uri('/build/index.js'), array('wp-element'), Wpstorm_Constants::VERSION, true);
-        wp_enqueue_style('wpstormthemecss', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
-        wp_localize_script('wpstormthemejs', 'wpstorm_theme_script_vars', array(
+        wp_enqueue_script('wpstorm-theme-js', get_theme_file_uri('/build/index.js'), array('wp-element', 'wp-i18n',), Wpstorm_Constants::VERSION, true);
+        wp_enqueue_style('wpstorm-theme-css', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
+        wp_localize_script('wpstorm-theme-js', 'wpstorm_theme_script_vars', array(
             'admin_ajax_url' => admin_url('admin-ajax.php'),
         ));
     }
@@ -84,7 +84,8 @@ class Wpstorm_Assets
         }
     }
 
-    public function enqueue_fonts() {
+    public function enqueue_fonts()
+    {
         // TODO Get the font chosen by the admin, and store it in a variable
         //.Then load the CSS file of that font based on the selected font.
         // The name of all fonts in their CSS file must be Wpstorm.
