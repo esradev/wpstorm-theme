@@ -48,34 +48,35 @@ class Wpstorm_Templates
 
     public static function get_header_template()
     {
-        //TODO Get the template_name from what admin want by get_option('header_template')
+        // TODO: Get the template_name from what admin want by get_option('header_template')
         $template_name = 'header-one';
         return 'template-parts/headers/' . $template_name;
     }
 
     public static function get_footer_template()
     {
-        //TODO Get the template_name from what admin want by get_option('footer_template')
+        // TODO: Get the template_name from what admin want by get_option('footer_template')
         $template_name = 'footer-one';
         return 'template-parts/footers/' . $template_name;
     }
 
     public static function get_404_template()
     {
-        //TODO Get the template_name from what admin want by get_option('404_template')
+        // TODO: Get the template_name from what admin want by get_option('404_template')
         $template_name = '404-split-img';
         return 'template-parts/404/' . $template_name;
     }
 
     public static function get_post_list_template()
     {
-        //TODO Get the template_name from what admin want by get_option('post_list_template')
+        // TODO: Get the template_name from what admin want by get_option('post_list_template')
         $template_name = 'list-2';
         return 'template-parts/posts/lists/' . $template_name;
     }
 
     public static function get_hero_section_template()
     {
+        // TODO: Get the template_name from what admin want by get_option('hero_section_template')
         $template_name = 'simple-centered';
         return 'template-parts/sections/heroes/' . $template_name;
     }
@@ -83,6 +84,3 @@ class Wpstorm_Templates
 }
 
 Wpstorm_Templates::get_instance();
-
-
-

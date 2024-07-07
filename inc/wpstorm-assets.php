@@ -60,8 +60,11 @@ class Wpstorm_Assets
 
     public function enqueue_main_assets()
     {
-        wp_enqueue_script('wpstorm-theme-js', get_theme_file_uri('/build/index.js'), array('wp-element', 'wp-i18n',), Wpstorm_Constants::VERSION, true);
+        wp_enqueue_script('alpinejs', get_template_directory_uri() . '/build/alpine.js', [], Wpstorm_Constants::VERSION, true);
+        wp_enqueue_script('wpstorm-theme-js', get_theme_file_uri('/build/index.js'), array('wp-element', 'wp-i18n'), Wpstorm_Constants::VERSION, true);
+        
         wp_enqueue_style('wpstorm-theme-css', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
+        
         wp_localize_script('wpstorm-theme-js', 'wpstorm_theme_script_vars', array(
             'admin_ajax_url' => admin_url('admin-ajax.php'),
         ));
@@ -69,7 +72,6 @@ class Wpstorm_Assets
 
     public function load_assets()
     {
-        wp_enqueue_script('header-script', get_template_directory_uri() . '/assets/js/header-script.js', array('jquery'), Wpstorm_Constants::VERSION, true);
 
         //remove_woocommerce_styles
         if (class_exists('WooCommerce')) {
@@ -79,9 +81,9 @@ class Wpstorm_Assets
             wp_dequeue_style('woocommerce_frontend_styles');
         }
 
-        if (is_cart()) { // Only load the script on the cart page
-            wp_enqueue_script('cart-script', get_template_directory_uri() . '/woocommerce/templates/cart/cart-script.js', array('jquery'), Wpstorm_Constants::VERSION, true);
-        }
+        // if (is_cart()) { // Only load the script on the cart page
+        //     wp_enqueue_script('cart-script', get_template_directory_uri() . '/woocommerce/templates/cart/cart-script.js', array('jquery'), Wpstorm_Constants::VERSION, true);
+        // }
     }
 
     public function enqueue_fonts()

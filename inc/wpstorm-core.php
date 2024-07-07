@@ -64,10 +64,10 @@ class Wpstorm_Core
     public function settings_page()
     {
         ?>
-        <div class="wrap">
-            <div id="wpstorm-theme-settings-dashboard" class="wpstorm-theme-tw-class"></div>
-        </div>
-        <?php
+<div class="wrap">
+  <div id="wpstorm-theme-settings-dashboard" class="wpstorm-theme-tw-class"></div>
+</div>
+<?php
     }
 
 
@@ -85,9 +85,9 @@ class Wpstorm_Core
     {
         $ourCurrentUser = wp_get_current_user();
 
-        if (count($ourCurrentUser->roles) == 1 and $ourCurrentUser->roles[0] == 'subscriber') {
+        // if (count($ourCurrentUser->roles) == 1 and $ourCurrentUser->roles[0] == 'subscriber') {
             show_admin_bar(false);
-        }
+        // }
     }
 
     public function redirect_to_custom_login()
@@ -141,6 +141,3 @@ class Wpstorm_Core
 }
 
 Wpstorm_Core::get_instance();
-
-
-

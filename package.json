@@ -1,42 +1,45 @@
 {
-    "name": "wpstorm-theme",
-    "version": "1.0.0",
-    "description": "Wpstorm Theme - A Sleek WordPress Experience Powered by Tailwind CSS",
-    "main": "index.js",
-    "scripts": {
-        "build": "wp-scripts build",
-        "start": "wp-scripts start",
-        "build:my-account": "wp-scripts build src/my-account/index.js --output-path=build/my-account",
-        "start:my-account": "wp-scripts start src/my-account/index.js --output-path=build/my-account",
-        "tailwindbuild": "tailwindcss -i ./src/index.css -o ./build/index.css --minify",
-        "tailwindwatch": "tailwindcss -i ./src/index.css -o ./build/index.css --watch --minify"
-    },
-    "keywords": [],
-    "author": "esradev",
-    "license": "ISC",
-    "devDependencies": {
-        "@tailwindcss/typography": "^0.5.9",
-        "@wordpress/scripts": "^26.9.0",
-        "browser-sync-webpack-plugin": "^2.3.0",
-        "npm-run-all": "^4.1.5",
-        "tailwindcss": "^3.3.3",
-        "webpack": "^5.88.2"
-    },
-    "dependencies": {
-        "@headlessui/react": "^1.7.16",
-        "@heroicons/react": "^2.0.18",
-        "@tailwindcss/forms": "^0.5.4",
-        "@wordpress/element": "^5.16.0",
-        "@wordpress/i18n": "^4.39.0",
-        "autoprefixer": "^10.4.14",
-        "axios": "^1.4.0",
-        "browser-sync": "^2.29.3",
-        "postcss": "^8.4.27",
-        "postcss-nested": "^6.0.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-icons": "^4.10.1",
-        "react-router-dom": "^6.15.0",
-        "use-immer": "^0.9.0"
-    }
+  "name": "wpstorm-theme",
+  "version": "1.0.0",
+  "description": "Wpstorm Theme - A Sleek WordPress Experience Powered by Tailwind CSS",
+  "main": "index.js",
+  "scripts": {
+    "preview": "npm-run-all --parallel sync wpstart tailwindwatch",
+    "sync": "browser-sync start -p 'localhost/wpstorm' --files '**/*.php' 'build/index.js' 'build/index.css' --no-open --no-notify",
+    "build": "npm-run-all --sequential wpbuild tailwindbuild",
+    "start": "npm-run-all --parallel wpstart tailwindwatch",
+    "wpbuild": "wp-scripts build src/index.js assets/js/alpine.js --output-path=build",
+    "wpstart": "wp-scripts start src/index.js assets/js/alpine.js --output-path=build",
+    "tailwindbuild": "tailwindcss -i src/index.css -o build/index.css --minify",
+    "tailwindwatch": "tailwindcss -i src/index.css -o build/index.css --watch --minify",
+    "build:my-account": "wp-scripts build src/my-account/index.js --output-path=build/my-account",
+    "start:my-account": "wp-scripts start src/my-account/index.js --output-path=build/my-account"
+  },
+  "keywords": [],
+  "author": "esradev",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "@wordpress/scripts": "^27.2.0",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.4.1",
+    "webpack": "^5.90.2"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.4",
+    "@wordpress/element": "^5.16.0",
+    "@wordpress/i18n": "^4.39.0",
+    "alpinejs": "^3.14.1",
+    "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
+    "browser-sync": "^2.29.3",
+    "postcss": "^8.4.27",
+    "postcss-nested": "^6.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
+    "react-router-dom": "^6.15.0",
+    "use-immer": "^0.9.0"
+  }
 }

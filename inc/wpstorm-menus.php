@@ -44,6 +44,12 @@ class Wpstorm_Menus
         add_action('after_setup_theme', [$this, 'wpstorm_theme_menus']);
     }
 
+    /**
+     * register all menus
+     * 
+     * @return void
+     * @since 1.0.0
+     */
     public function wpstorm_theme_menus()
     {
         register_nav_menus(
@@ -66,6 +72,13 @@ class Wpstorm_Menus
 
     }
 
+    /**
+     * Get menu items by location
+     * 
+     * @param string $location
+     * @return array $menu_items
+     * @since 1.0.0
+     */
     public static function get_menu_items_by_location($location) {
         $menu_name = wp_get_nav_menu_name($location);
         $menu_items = wp_get_nav_menu_items($menu_name);
@@ -73,7 +86,14 @@ class Wpstorm_Menus
         return $menu_items;
     }
 
-
+    /**
+     * Check if menu has submenu items
+     * 
+     * @param array $menu_items
+     * @param int $parent_id
+     * @return bool
+     * @since 1.0.0
+     */
     public static function has_submenu_items($menu_items, $parent_id)
     {
         foreach ($menu_items as $menu_item) {
@@ -84,6 +104,14 @@ class Wpstorm_Menus
         return false;
     }
 
+    /**
+     * Get submenu items
+     * 
+     * @param array $menu_items
+     * @param int $parent_id
+     * @return array $submenu_items
+     * @since 1.0.0
+     */
     public static function get_submenu_items($menu_items, $parent_id)
     {
         $submenu_items = array();
