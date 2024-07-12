@@ -1,5 +1,6 @@
 <?php
 require_once get_theme_file_path('/inc/wpstorm-constants.php');
+require_once get_theme_file_path('/inc/wpstorm-helpers.php');
 
 require_once get_theme_file_path('/inc/wpstorm-core.php');
 require_once get_theme_file_path('/inc/wpstorm-assets.php');

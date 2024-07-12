@@ -81,6 +81,12 @@ class Wpstorm_Templates
         return 'template-parts/sections/heroes/' . $template_name;
     }
 
+    public static function get_paginate_template()
+    {
+        $template_name = 'card-paginate';
+        return 'template-parts/paginate/' . $template_name;
+    }
+
 }
 
 Wpstorm_Templates::get_instance();

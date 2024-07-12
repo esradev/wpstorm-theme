@@ -1,5 +1,5 @@
-import { createContext } from "react";
+import { createContext } from '@wordpress/element'
 
-const DispatchContext = createContext();
+const DispatchContext = createContext()
 
-export default DispatchContext;
+export default DispatchContext

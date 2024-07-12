@@ -1,5 +1,5 @@
-import { createContext } from "react";
+import { createContext } from '@wordpress/element'
 
-const StateContext = createContext();
+const StateContext = createContext()
 
-export default StateContext;
+export default StateContext

@@ -6,8 +6,5 @@
     {
       "path": "../../.."
     }
-  ],
-  "settings": {
-    "workbench.colorTheme": "GitHub Dark Default"
-  }
+  ]
 }
