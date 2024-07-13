@@ -114,6 +114,17 @@ class Wpstorm_Customizer
             'section' => '404_page_section',
             'type' => 'text',
         ));
+
+        $wp_customize->add_setting('404_back_to_home', array(
+            'default' => 'Back to Home',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control('404_back_to_home', array(
+            'label' => '404 Back to Home',
+            'section' => '404_page_section',
+            'type' => 'text',
+        ));
     }
 }
 

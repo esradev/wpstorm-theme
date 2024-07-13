@@ -1,3 +1,6 @@
+/*!*******************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/index.css ***!
+  \*******************************************************************************************************************************************************************/
 /*
 ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com
 *//*
@@ -1616,6 +1619,9 @@ select {
 .mr-0\.5 {
   margin-left: 0.125rem;
 }
+.mr-1 {
+  margin-left: 0.25rem;
+}
 .mr-12 {
   margin-left: 3rem;
 }
@@ -1682,11 +1688,20 @@ select {
 .mt-auto {
   margin-top: auto;
 }
+.mr-4 {
+  margin-left: 1rem;
+}
 .line-clamp-3 {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .block {
   display: block;
@@ -1792,6 +1807,9 @@ select {
 }
 .min-h-full {
   min-height: 100%;
+}
+.min-h-\[100dvh\] {
+  min-height: 100dvh;
 }
 .w-0 {
   width: 0px;
@@ -1961,6 +1979,12 @@ select {
 .cursor-pointer {
   cursor: pointer;
 }
+.list-inside {
+  list-style-position: inside;
+}
+.list-disc {
+  list-style-type: disc;
+}
 .appearance-none {
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -2031,6 +2055,9 @@ select {
 }
 .gap-8 {
   gap: 2rem;
+}
+.gap-1 {
+  gap: 0.25rem;
 }
 .gap-x-1 {
   -moz-column-gap: 0.25rem;
@@ -2844,6 +2871,10 @@ select {
   --tw-text-opacity: 1;
   color: rgb(250 204 21 / var(--tw-text-opacity));
 }
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
 .line-through {
   text-decoration-line: line-through;
 }
@@ -3156,6 +3187,15 @@ select {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.hover\:text-rose-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(225 29 72 / var(--tw-text-opacity));
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
 }
 
 .hover\:ring-gray-900\/20:hover {
@@ -3625,6 +3665,11 @@ select {
   .sm\:py-48 {
     padding-top: 12rem;
     padding-bottom: 12rem;
+  }
+
+  .sm\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 
   .sm\:pb-1 {

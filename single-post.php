@@ -67,14 +67,14 @@ while (have_posts()) : the_post();
     </div>
     <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><?php the_title(); ?></h1>
     <div class="mt-6 text-lg leading-8"><?php the_excerpt(); ?></div>
-    <div class="mt-10 max-w-2xl prose">
+    <div class="mt-10 max-w-5xl prose">
       <?php the_content(); ?>
     </div>
   </div>
 </div>
 
 <!-- Display the comments form -->
-<div class="mx-auto max-w-5xl my-8 px-4 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-5xl my-8 p-4 sm:p-6 lg:p-8">
   <?php comments_template(); ?>
 </div>
 

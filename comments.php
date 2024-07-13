@@ -52,8 +52,8 @@ $required_symbol = '<span class="text-rose-600 text-base mx-1">*</span>';
 
 $fields = array(
     'author' => '<div class="flex gap-x-4"><p class="comment-form-author w-1/3"><label for="author" class="block mb-2">' . __('Name', 'wpstorm-theme') . ($req ? $required_symbol : '') . '</label><input id="author" name="author" type="text" placeholder="Enter your name" class="w-full border border-gray-300 p-2 rounded" value="' . esc_attr($commenter['comment_author']) . '" size="30"' . $aria_req . ' /></p>',
-    'url' => '<p class="comment-form-url w-1/3"><label for="url" class="block mb-2">' . __('Website', 'wpstorm-theme') . '</label><input id="url" name="url" type="url" placeholder="Enter your website url" class="w-full border border-gray-300 p-2 rounded" value="' . esc_attr($commenter['comment_author_url']) . '" size="30" /></p>',
-    'email' => '<p class="comment-form-email w-1/3"><label for="email" class="block mb-2">' . __('Email', 'wpstorm-theme') . ($req ? $required_symbol : '') . '</label><input id="email" name="email" type="email" placeholder="Enter your email" class="w-full border border-gray-300 p-2 rounded" value="' . esc_attr($commenter['comment_author_email']) . '" size="30"' . $aria_req . ' /></p></div>',
+    'email' => '<p class="comment-form-email w-1/3"><label for="email" class="block mb-2">' . __('Email', 'wpstorm-theme') . ($req ? $required_symbol : '') . '</label><input id="email" name="email" type="email" placeholder="Enter your email" class="w-full border border-gray-300 p-2 rounded" value="' . esc_attr($commenter['comment_author_email']) . '" size="30"' . $aria_req . ' /></p>',
+    'url' => '<p class="comment-form-url w-1/3"><label for="url" class="block mb-2">' . __('Website', 'wpstorm-theme') . '</label><input id="url" name="url" type="url" placeholder="Enter your website url" class="w-full border border-gray-300 p-2 rounded" value="' . esc_attr($commenter['comment_author_url']) . '" size="30" /></p></div>',
 );
 comment_form(array(
     'class_form' => 'space-y-4 flex flex-col',

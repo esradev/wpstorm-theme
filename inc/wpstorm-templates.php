@@ -63,7 +63,7 @@ class Wpstorm_Templates
     public static function get_404_template()
     {
         // TODO: Get the template_name from what admin want by get_option('404_template')
-        $template_name = '404-split-img';
+        $template_name = '404-one';
         return 'template-parts/404/' . $template_name;
     }
 
@@ -85,6 +85,12 @@ class Wpstorm_Templates
     {
         $template_name = 'card-paginate';
         return 'template-parts/paginate/' . $template_name;
+    }
+
+    public static function get_author_template()
+    {
+        $template_name = 'author-one';
+        return 'template-parts/author/' . $template_name;
     }
 
 }
