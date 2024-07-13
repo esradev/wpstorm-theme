@@ -3,11 +3,11 @@
 get_header();
 
 ?>
-<div class="py-12 sm:py-16">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl lg:max-w-4xl">
-      <div class="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
-        <?php
+
+<div class="mx-auto max-w-7xl px-6 lg:px-8">
+  <div class="mx-auto max-w-2xl lg:max-w-4xl">
+    <div class="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
+      <?php
                     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
                     // Query the latest posts
                     $args = array(
@@ -28,11 +28,9 @@ get_header();
                     // Reset the main query to its original state
                     wp_reset_query();
                     ?>
-      </div>
     </div>
   </div>
 </div>
-
 
 <?php
 
