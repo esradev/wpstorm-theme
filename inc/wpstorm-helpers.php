@@ -73,40 +73,46 @@ class Wpstorm_Helpers
             'count' => true
         )));        
 
-        // Define styles for different depths TODO: Update css classes for more good design.
-        $comment_classes = 'comment-item flex gap-x-4 py-4 border-gray-300';
-        $comment_with_replies_classes = 'reply-item flex gap-x-4 p-4 bg-gray-100';
-        $unapproved_comment_classes = 'comment-item flex space-x-4 py-4 border-b border-gray-300 bg-yellow-50 text-yellow-700';
-        $unapproved_reply_classes = 'reply-item flex bg-gray-50 mr-4 p-4 border-r-4 border-rose-300';
+        // Define styles for different depths
+        $comment_classes = 'comment-item relative flex gap-x-4 px-4';
+        $comment_with_replies_classes = 'reply-item relative flex gap-x-4 px-4';
+        $unapproved_comment_classes = 'comment-item relative flex gap-x-4 px-4';
+        $unapproved_reply_classes = [
+            1 => 'reply-item relative flex gap-x-4 mr-6 mb-6 border-r-4 border-yellow-600 px-4',
+            2 => 'reply-item relative flex gap-x-4 mr-8 mb-6 border-r-4 border-yellow-600 px-4',
+            3 => 'reply-item relative flex gap-x-4 mr-12 mb-6 border-r-4 border-yellow-600 px-4',
+            4 => 'reply-item relative flex gap-x-4 mr-16 mb-6 border-r-4 border-yellow-600 px-4',
+        ];
 
         $reply_classes = [
-            1 => 'reply-item flex bg-gray-50 mr-4 p-4 border-r-4 border-gray-300',
-            2 => 'reply-item flex bg-gray-50 mr-8 p-4 border-r-4 border-gray-300',
-            3 => 'reply-item flex bg-gray-50 mr-12 p-4 border-r-4 border-gray-300'
+            1 => 'reply-item relative flex gap-x-4 mr-6 mb-6 px-4 border-r-2 border-green-600',
+            2 => 'reply-item relative flex gap-x-4 mr-8 mb-6 px-4 border-r-2 border-green-600',
+            3 => 'reply-item relative flex gap-x-4 mr-12 mb-6 px-4 border-r-2 border-green-600',
+            4 => 'reply-item relative flex gap-x-4 mr-16 mb-6 px-4 border-r-2 border-green-600',
         ];
 
           // Determine the classes to use
          // Determine the classes to use
         if (!$is_approved) {
-            $classes = $depth > 1 ? $unapproved_reply_classes : $unapproved_comment_classes;
+            $classes = $depth > 1 ? (isset($unapproved_reply_classes[$depth]) ? $unapproved_reply_classes[$depth] : $unapproved_reply_classes[2])  : $unapproved_reply_classes[2] ;
         } else {
             $classes = $depth > 1 ? (isset($reply_classes[$depth]) ? $reply_classes[$depth] : $reply_classes[2]) : ($has_replies ? $comment_with_replies_classes : $comment_classes);
         }
         ?>
 <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $classes ); ?>>
-  <?php if (0 != $args['avatar_size']) echo get_avatar($comment, $args['avatar_size'], '', '', array('class' => 'h-12 w-12 rounded-full ring-4 ring-white')); ?>
-  <div class="comment-content flex ">
-    <div class="comment-author mb-2 flex flex-col ">
-      <span class="font-bold"><?php echo get_comment_author_link(); ?></span>
-      <span class="text-gray-500 text-sm ml-2"><?php echo get_comment_date(); ?> at
-        <?php echo get_comment_time(); ?></span>
-      <div class="comment-text mb-2">
-        <?php comment_text(); ?>
-      </div>
+  <?php if (0 != $args['avatar_size']) echo get_avatar($comment, $args['avatar_size'], '', '', array('class' => 'relative mt-3 h-8 w-8 flex-none rounded-full bg-gray-50')); ?>
+  <div class="comment-content flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
+    <div class="comment-author flex justify-between gap-x-4">
+      <span class="py-0.5 text-xs leading-5 text-gray-500"><?php echo get_comment_author_link(); ?></span>
+      <time class="flex-none py-0.5 text-xs leading-5 text-gray-500"><?php echo get_comment_date(); ?> at
+        <?php echo get_comment_time(); ?></time>
     </div>
+    <p class="comment-text text-sm leading-6 text-gray-500">
+      <?php comment_text(); ?>
+    </p>
   </div>
   <div class="flex items-end mr-auto">
-    <div class="rounded bg-indigo-50 px-2 py-1 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
+    <div class="rounded bg-indigo-50 px-2 py-1 text-sm font-medium text-indigo-600 shadow-sm hover:bg-indigo-100">
       <?php
                     comment_reply_link(array_merge($args, array(
                         'add_below' => 'comment',
