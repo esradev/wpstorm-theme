@@ -68,6 +68,10 @@ class Wpstorm_Assets
         wp_localize_script('wpstorm-theme-js', 'wpstorm_theme_script_vars', array(
             'admin_ajax_url' => admin_url('admin-ajax.php'),
         ));
+
+        wp_localize_script('alpinejs', 'alpine_wp_data', [
+            'rest_url' => esc_url_raw(rest_url()),
+        ]);
     }
 
     public function load_assets()

@@ -27,6 +27,7 @@
     "webpack": "^5.90.2"
   },
   "dependencies": {
+    "@alpinejs/focus": "^3.14.1",
     "@tailwindcss/forms": "^0.5.4",
     "@wordpress/element": "^5.16.0",
     "@wordpress/i18n": "^4.39.0",

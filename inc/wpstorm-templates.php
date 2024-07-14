@@ -93,6 +93,12 @@ class Wpstorm_Templates
         return 'template-parts/author/' . $template_name;
     }
 
+    public static function get_search_template()
+    {
+        $template_name = 'search-modal';
+        return 'template-parts/sections/modals/' . $template_name;
+    }
+
 }
 
 Wpstorm_Templates::get_instance();
