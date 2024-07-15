@@ -5,3 +5,110 @@
 [x-cloak] {
   display: none !important;
 }
+
+/* Tailwind CSS for WordPress Login Page */
+
+body.login {
+  @apply bg-indigo-100 flex flex-col items-center justify-center max-h-screen overflow-hidden font-sans;
+}
+
+#login {
+  @apply w-full max-w-md mx-auto p-4 bg-white rounded-lg shadow-md m-2;
+}
+
+#login h1 a {
+  @apply p-0 mx-auto my-0;
+}
+
+#login form {
+  @apply space-y-2 flex flex-col border-none shadow-none p-2;
+}
+
+#login label {
+  @apply block mb-2 text-sm font-medium text-gray-700;
+}
+
+#login input.input {
+  @apply w-full px-4 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500;
+}
+
+#login .wp-pwd {
+  @apply relative;
+}
+
+#login .wp-pwd button {
+  @apply absolute inset-y-0 left-0 text-lg text-gray-500 bg-gray-200 rounded-l-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500;
+}
+
+#login .wp-pwd button span {
+  @apply text-indigo-600;
+}
+
+#login .forgetmenot {
+  @apply flex items-center;
+}
+
+#login .forgetmenot input {
+  @apply ml-2 bg-white h-4 w-4 rounded-full;
+}
+
+#login .forgetmenot input:checked {
+  @apply text-indigo-600 bg-indigo-100;
+}
+
+#login .forgetmenot label {
+  @apply text-sm text-gray-600;
+}
+
+#login .submit {
+  @apply flex justify-between items-center;
+}
+
+#login .submit input.button-primary {
+  @apply w-full py-2 px-4 bg-indigo-600 text-white rounded-lg text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+}
+
+#login #nav {
+  @apply mt-4 text-center text-sm text-gray-600;
+}
+
+#login #nav a {
+  @apply text-indigo-500 hover:text-indigo-700;
+}
+
+#login #backtoblog {
+  @apply mt-4 text-center text-sm text-gray-600;
+}
+
+#login #backtoblog a {
+  @apply text-indigo-500 hover:text-indigo-700;
+}
+
+.language-switcher {
+  @apply mt-1 text-center;
+}
+
+.language-switcher form {
+  @apply inline-block mt-4;
+}
+
+.language-switcher select {
+  @apply px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500;
+}
+
+.language-switcher select option {
+  @apply bg-white text-gray-900;
+}
+
+.language-switcher input.button {
+  @apply ml-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500;
+}
+
+/* Customize Notice */
+.login .notice {
+  @apply shadow-md;
+}
+
+.login .message {
+  @apply border-r-4 border-indigo-600;
+}

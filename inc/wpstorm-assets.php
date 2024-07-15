@@ -46,8 +46,9 @@ class Wpstorm_Assets
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_main_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_main_assets']);
         add_action('wp_enqueue_scripts', [$this, 'load_assets']);
-
         add_action('wp_enqueue_scripts', [$this, 'enqueue_fonts']);
+
+        add_action('login_enqueue_scripts', [$this, 'enqueue_login_assets'], 10);
     }
 
     public function admin_enqueue_main_assets()
@@ -104,6 +105,12 @@ class Wpstorm_Assets
 
         $font_file_url = get_template_directory_uri() . '/assets/fonts/iran-sans/iran-sans.css';
         wp_enqueue_style('wpstorm-font', $font_file_url);
+    }
+
+    public function enqueue_login_assets()
+    {
+        wp_enqueue_style('wpstorm-login-css', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
+        $this->enqueue_fonts();
     }
 }
 

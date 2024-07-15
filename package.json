@@ -13,8 +13,22 @@
     "tailwindbuild": "tailwindcss -i src/index.css -o build/index.css --minify",
     "tailwindwatch": "tailwindcss -i src/index.css -o build/index.css --watch --minify",
     "build:my-account": "wp-scripts build src/my-account/index.js --output-path=build/my-account",
-    "start:my-account": "wp-scripts start src/my-account/index.js --output-path=build/my-account"
+    "start:my-account": "wp-scripts start src/my-account/index.js --output-path=build/my-account",
+    "plugin-zip": "wp-scripts plugin-zip"
   },
+  "files": [
+    "assets",
+    "build",
+    "inc",
+    "languages",
+    "template-parts",
+    "woocommerce",
+    "*.php",
+    "style.css",
+    "screenshot.png",
+    "package.json",
+    "readme.md"
+  ],
   "keywords": [],
   "author": "esradev",
   "license": "ISC",
