@@ -1,6 +1,9 @@
 import Alpine from 'alpinejs'
 import focus from '@alpinejs/focus'
 
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
+
 Alpine.plugin(focus)
 
 window.Alpine = Alpine
@@ -73,6 +76,18 @@ Alpine.data('userEdit', (userFields, userId) => ({
     description: false
   },
   fields: userFields,
+
+  notify: (message, type = 'success') => {
+    Toastify({
+      text: message,
+      duration: 1500,
+      gravity: 'bottom',
+      position: 'right',
+      style: {
+        background: type === 'success' ? '#25ac57' : '#e11d48'
+      }
+    }).showToast()
+  },
   async saveChanges(field) {
     try {
       let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/users/${userId}`, {
@@ -92,12 +107,14 @@ Alpine.data('userEdit', (userFields, userId) => ({
 
       if (data.id) {
         this.editing[field] = false
-        console.log('User data updated successfully:', data)
+        this.notify('تنظیمات با موفقیت ذخیره شدند!')
       } else {
         console.error('Error:', data.message || 'Unknown error')
+        this.notify(data.message || 'Unknown error', 'error')
       }
     } catch (error) {
       console.error('Error:', error.message || error)
+      this.notify(error.message || error, 'error')
     }
   }
 }))

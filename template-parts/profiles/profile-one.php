@@ -64,7 +64,8 @@ $user = wp_get_current_user();
               </template>
               <template x-if="editing.first_name">
                 <div class="flex justify-between gap-x-6 w-full">
-                  <input type="text" class="text-gray-900 border border-gray-300 rounded p-2"
+                  <input type="text"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     x-model="fields.first_name" x-trap="editing.first_name" />
                   <div class="flex justify-end gap-x-4 ">
                     <button type="button" class="font-semibold text-green-600 hover:text-green-500"
@@ -98,8 +99,9 @@ $user = wp_get_current_user();
               </template>
               <template x-if="editing.last_name">
                 <div class="flex justify-between gap-x-6 w-full">
-                  <input type="text" class="text-gray-900 border border-gray-300 rounded p-2" x-model="fields.last_name"
-                    x-trap="editing.last_name" />
+                  <input type="text"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    x-model="fields.last_name" x-trap="editing.last_name" />
                   <div class="flex justify-end gap-x-4 ">
                     <button type="button" class="font-semibold text-green-600 hover:text-green-500"
                       @click="saveChanges('last_name')">
@@ -133,8 +135,9 @@ $user = wp_get_current_user();
               </template>
               <template x-if="editing.name">
                 <div class="flex justify-between gap-x-6 w-full">
-                  <input type="text" class="text-gray-900 border border-gray-300 rounded p-2" x-model="fields.name"
-                    x-trap="editing.name" />
+                  <input type="text"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    x-model="fields.name" x-trap="editing.name" />
                   <div class="flex justify-end gap-x-4 ">
                     <button type="button" class="font-semibold text-green-600 hover:text-green-500"
                       @click="saveChanges('name')">
@@ -167,8 +170,9 @@ $user = wp_get_current_user();
               </template>
               <template x-if="editing.email">
                 <div class="flex justify-between gap-x-6 w-full">
-                  <input type="email" class="text-gray-900 border border-gray-300 rounded p-2" x-model="fields.email"
-                    x-trap="editing.email" />
+                  <input type="email"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    x-model="fields.email" x-trap="editing.email" />
                   <div class="flex justify-end gap-x-4 ">
                     <button type="button" class="font-semibold text-green-600 hover:text-green-500"
                       @click="saveChanges('email')">
@@ -201,7 +205,8 @@ $user = wp_get_current_user();
               </template>
               <template x-if="editing.description">
                 <div class="flex justify-between gap-x-6 w-full">
-                  <textarea class="text-gray-900 border border-gray-300 rounded p-2 w-full h-24"
+                  <textarea
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full h-24"
                     x-model="fields.description" x-trap="editing.description"></textarea>
                   <div class="flex justify-end gap-x-4 ">
                     <button type="button" class="font-semibold text-green-600 hover:text-green-500"

@@ -62,8 +62,9 @@ class Wpstorm_Assets
     public function enqueue_main_assets()
     {
         wp_enqueue_script('alpinejs', get_template_directory_uri() . '/build/alpine.js', [], Wpstorm_Constants::VERSION, true);
+        wp_enqueue_style('alpinjs-styles', get_template_directory_uri() . '/build/alpine.css', [], Wpstorm_Constants::VERSION, 'all');
+
         wp_enqueue_script('wpstorm-theme-js', get_theme_file_uri('/build/index.js'), array('wp-element', 'wp-i18n'), Wpstorm_Constants::VERSION, true);
-        
         wp_enqueue_style('wpstorm-theme-css', get_theme_file_uri('/build/index.css'), [], Wpstorm_Constants::VERSION, 'all');
         
         wp_localize_script('wpstorm-theme-js', 'wpstorm_theme_script_vars', array(
