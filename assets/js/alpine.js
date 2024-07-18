@@ -50,7 +50,7 @@ Alpine.data('searchComponent', () => ({
         console.error('Error fetching data:', error)
         this.loading = false
       })
-  }, 300), // 300ms debounce
+  }, 700), // 700ms debounce
   handleInput() {
     this.loading = true
     this.fetchDebounced()

@@ -99,6 +99,12 @@ class Wpstorm_Templates
         return 'template-parts/sections/modals/' . $template_name;
     }
 
+    public static function get_profile_template()
+    {
+        $template_name = 'profile-one';
+        return 'template-parts/profiles/' . $template_name;
+    }
+
 }
 
 Wpstorm_Templates::get_instance();
