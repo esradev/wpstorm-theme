@@ -64,4 +64,42 @@ Alpine.data('searchComponent', () => ({
   }
 }))
 
+Alpine.data('userEdit', (userFields, userId) => ({
+  editing: {
+    first_name: false,
+    last_name: false,
+    name: false,
+    email: false,
+    description: false
+  },
+  fields: userFields,
+  async saveChanges(field) {
+    try {
+      let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/users/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': alpine_wp_data.nonce
+        },
+        body: JSON.stringify({ [field]: this.fields[field] })
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      let data = await response.json()
+
+      if (data.id) {
+        this.editing[field] = false
+        console.log('User data updated successfully:', data)
+      } else {
+        console.error('Error:', data.message || 'Unknown error')
+      }
+    } catch (error) {
+      console.error('Error:', error.message || error)
+    }
+  }
+}))
+
 Alpine.start()

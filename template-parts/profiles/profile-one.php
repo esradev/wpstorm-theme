@@ -38,64 +38,183 @@ $user = wp_get_current_user();
           <?php echo __('Update your account\'s profile information and email address.', 'wpstorm-theme'); ?>
         </p>
 
-        <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+        <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6" x-data="userEdit({
+        first_name: '<?php echo esc_html($user->first_name); ?>',
+        last_name: '<?php echo esc_html($user->last_name); ?>',
+        name: '<?php echo esc_html($user->display_name); ?>',
+        email: '<?php echo esc_html($user->user_email); ?>',
+        description: '<?php echo esc_html($user->description); ?>'
+    }, <?php echo esc_html($user->ID); ?>)">
+
+
+          <!-- First Name -->
           <div class="pt-6 sm:flex">
             <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
               <?php echo __('First name', 'wpstorm-theme'); ?>
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-              <div class="text-gray-900"><?php echo esc_html($user->first_name); ?></div>
-              <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">
-                <?php echo __('Update', 'wpstorm-theme'); ?>
-              </button>
+              <template x-if="!editing.first_name">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <div class="text-gray-900" x-text="fields.first_name"></div>
+                  <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+                    @click="editing.first_name = true">
+                    <?php echo __('Update', 'wpstorm-theme'); ?>
+                  </button>
+                </div>
+              </template>
+              <template x-if="editing.first_name">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <input type="text" class="text-gray-900 border border-gray-300 rounded p-2"
+                    x-model="fields.first_name" x-trap="editing.first_name" />
+                  <div class="flex justify-end gap-x-4 ">
+                    <button type="button" class="font-semibold text-green-600 hover:text-green-500"
+                      @click="saveChanges('first_name')">
+                      <?php echo __('Save', 'wpstorm-theme'); ?>
+                    </button>
+                    <button type="button" class="font-semibold text-rose-600 hover:text-rose-500"
+                      @click="editing.first_name = false">
+                      <?php echo __('Cancel', 'wpstorm-theme'); ?>
+                    </button>
+                  </div>
+                </div>
+              </template>
             </dd>
           </div>
+
+          <!-- Last Name -->
           <div class="pt-6 sm:flex">
             <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
               <?php echo __('Last name', 'wpstorm-theme'); ?>
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-              <div class="text-gray-900"><?php echo esc_html($user->last_name); ?></div>
-              <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">
-                <?php echo __('Update', 'wpstorm-theme'); ?>
-              </button>
+              <template x-if="!editing.last_name">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <div class="text-gray-900" x-text="fields.last_name"></div>
+                  <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+                    @click="editing.last_name = true">
+                    <?php echo __('Update', 'wpstorm-theme'); ?>
+                  </button>
+                </div>
+              </template>
+              <template x-if="editing.last_name">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <input type="text" class="text-gray-900 border border-gray-300 rounded p-2" x-model="fields.last_name"
+                    x-trap="editing.last_name" />
+                  <div class="flex justify-end gap-x-4 ">
+                    <button type="button" class="font-semibold text-green-600 hover:text-green-500"
+                      @click="saveChanges('last_name')">
+                      <?php echo __('Save', 'wpstorm-theme'); ?>
+                    </button>
+                    <button type="button" class="font-semibold text-rose-600 hover:text-rose-500"
+                      @click="editing.last_name = false">
+                      <?php echo __('Cancel', 'wpstorm-theme'); ?>
+                    </button>
+                  </div>
+
+                </div>
+              </template>
             </dd>
           </div>
+
+          <!-- Display Name -->
           <div class="pt-6 sm:flex">
             <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-              <?php echo __('Last name', 'wpstorm-theme'); ?>
+              <?php echo __('Display name', 'wpstorm-theme'); ?>
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-              <div class="text-gray-900"><?php echo esc_html($user->display_name); ?></div>
-              <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">
-                <?php echo __('Update', 'wpstorm-theme'); ?>
-              </button>
+              <template x-if="!editing.name">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <div class="text-gray-900" x-text="fields.name"></div>
+                  <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+                    @click="editing.name = true">
+                    <?php echo __('Update', 'wpstorm-theme'); ?>
+                  </button>
+                </div>
+              </template>
+              <template x-if="editing.name">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <input type="text" class="text-gray-900 border border-gray-300 rounded p-2" x-model="fields.name"
+                    x-trap="editing.name" />
+                  <div class="flex justify-end gap-x-4 ">
+                    <button type="button" class="font-semibold text-green-600 hover:text-green-500"
+                      @click="saveChanges('name')">
+                      <?php echo __('Save', 'wpstorm-theme'); ?>
+                    </button>
+                    <button type="button" class="font-semibold text-rose-600 hover:text-rose-500"
+                      @click="editing.name = false">
+                      <?php echo __('Cancel', 'wpstorm-theme'); ?>
+                    </button>
+                  </div>
+                </div>
+              </template>
             </dd>
           </div>
+
+          <!-- Email -->
           <div class="pt-6 sm:flex">
             <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-              <?php echo __('Email address', 'wpstorm-theme'); ?>
+              <?php echo __('Email', 'wpstorm-theme'); ?>
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-              <div class="text-gray-900">
-                <?php echo esc_html($user->user_email); ?>
-              </div>
-              <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">
-                <?php echo __('Update', 'wpstorm-theme'); ?>
-              </button>
+              <template x-if="!editing.email">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <div class="text-gray-900" x-text="fields.email"></div>
+                  <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+                    @click="editing.email = true">
+                    <?php echo __('Update', 'wpstorm-theme'); ?>
+                  </button>
+                </div>
+              </template>
+              <template x-if="editing.email">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <input type="email" class="text-gray-900 border border-gray-300 rounded p-2" x-model="fields.email"
+                    x-trap="editing.email" />
+                  <div class="flex justify-end gap-x-4 ">
+                    <button type="button" class="font-semibold text-green-600 hover:text-green-500"
+                      @click="saveChanges('email')">
+                      <?php echo __('Save', 'wpstorm-theme'); ?>
+                    </button>
+                    <button type="button" class="font-semibold text-rose-600 hover:text-rose-500"
+                      @click="editing.email = false">
+                      <?php echo __('Cancel', 'wpstorm-theme'); ?>
+                    </button>
+                  </div>
+                </div>
+              </template>
             </dd>
           </div>
+
+          <!-- Description -->
           <div class="pt-6 sm:flex">
             <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-              <?php echo __('Bio', 'wpstorm-theme'); ?>
+              <?php echo __('Description', 'wpstorm-theme'); ?>
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-              <div class="text-gray-900">
-                <?php echo esc_html($user->description); ?>
-              </div>
-              <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">
-                <?php echo __('Update', 'wpstorm-theme'); ?>
-              </button>
+              <template x-if="!editing.description">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <div class="text-gray-900" x-text="fields.description"></div>
+                  <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+                    @click="editing.description = true">
+                    <?php echo __('Update', 'wpstorm-theme'); ?>
+                  </button>
+                </div>
+              </template>
+              <template x-if="editing.description">
+                <div class="flex justify-between gap-x-6 w-full">
+                  <textarea class="text-gray-900 border border-gray-300 rounded p-2 w-full h-24"
+                    x-model="fields.description" x-trap="editing.description"></textarea>
+                  <div class="flex justify-end gap-x-4 ">
+                    <button type="button" class="font-semibold text-green-600 hover:text-green-500"
+                      @click="saveChanges('description')">
+                      <?php echo __('Save', 'wpstorm-theme'); ?>
+                    </button>
+                    <button type="button" class="font-semibold text-rose-600 hover:text-rose-500"
+                      @click="editing.description = false">
+                      <?php echo __('Cancel', 'wpstorm-theme'); ?>
+                    </button>
+                  </div>
+                </div>
+              </template>
             </dd>
           </div>
         </dl>
