@@ -132,7 +132,7 @@
                 ?>
           <div class="pt-1" role="none">
             <a href="<?php echo esc_url(wp_logout_url()); ?>"
-              class="text-gray-700 block w-full px-4 py-2 rounded-b-lg text-left text-base hover:bg-red-300"
+              class="text-gray-700 block w-full px-4 py-2 rounded-b-lg text-left text-base hover:bg-rose-100 hover:text-rose-700"
               role="menuitem" tabindex="-1" id="menu-item-3">Sign out
             </a>
           </div>

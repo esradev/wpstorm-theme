@@ -76,6 +76,7 @@ class Wpstorm_Assets
             'nonce' => wp_create_nonce('wp_rest'),
             'admin_ajax_url' => admin_url('admin-ajax.php'),
             'login_url' => wp_login_url(),
+            'profile_url' => site_url('/user-profile'),
         ]);
     }
 

@@ -226,6 +226,7 @@ Alpine.data('deleteUserAccount', userId => ({
   }
 }))
 
+// Create Post Component
 Alpine.data('createPost', () => ({
   postTitle: '',
   postContent: '',
@@ -263,6 +264,42 @@ Alpine.data('createPost', () => ({
     this.postTitle = ''
     this.postContent = ''
     this.postCategory = []
+  }
+}))
+
+// Edit Delete Post Components
+Alpine.data('editDeletePost', postId => ({
+  postId: postId,
+  notify: notify,
+  async deletePost() {
+    // TODO: Remove deleted post from the DOM first then send the request
+    try {
+      let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts/${this.postId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': alpine_wp_data.nonce
+        }
+      })
+
+      let data = await response.json()
+
+      if (response.ok) {
+        this.notify('Post deleted successfully!', 'success')
+        // Reload page
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500)
+      } else {
+        this.notify(data.message || 'Unknown error', 'error')
+      }
+    } catch (error) {
+      console.error('Error:', error.message || error)
+      this.notify(error.message || error, 'error')
+    }
+  },
+  async updatePost() {
+    // TODO: Make this work later
   }
 }))
 

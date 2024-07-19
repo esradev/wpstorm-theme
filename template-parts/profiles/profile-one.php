@@ -61,8 +61,17 @@ $user = wp_get_current_user();
             echo __('View All Posts', 'wpstorm-theme') ?>
           </a>
         </li>
-
         <?php endif; ?>
+
+        <!-- Logout link -->
+        <li>
+          <a href="<?php echo wp_logout_url(home_url()); ?>"
+            class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer bg-rose-50 text-rose-600 hover:text-rose-700 hover:bg-rose-100">
+            <?php
+            echo Wpstorm_Helpers::get_svg_icon('logout', 'h-6 w-6 shrink-0', '', 'text-gray-400');
+            echo __('Logout', 'wpstorm-theme') ?>
+          </a>
+        </li>
 
       </ul>
     </nav>
@@ -115,7 +124,7 @@ $user = wp_get_current_user();
                       <?php echo __('Save', 'wpstorm-theme'); ?>
                     </button>
                     <button type="button"
-                      class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50  px-4 py-2 hover:shadow-md rounded-lg"
+                      class="font-semibold text-gray-600 hover:text-gray-700 bg-gray-50  px-4 py-2 hover:shadow-md rounded-lg"
                       @click="editing.first_name = false">
                       <?php echo __('Cancel', 'wpstorm-theme'); ?>
                     </button>
@@ -227,7 +236,7 @@ $user = wp_get_current_user();
                       <?php echo __('Save', 'wpstorm-theme'); ?>
                     </button>
                     <button type="button"
-                      class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50  px-4 py-2 hover:shadow-md rounded-lg"
+                      class="font-semibold text-gray-600 hover:text-gray-700 bg-gray-50  px-4 py-2 hover:shadow-md rounded-lg"
                       @click="editing.email = false">
                       <?php echo __('Cancel', 'wpstorm-theme'); ?>
                     </button>
@@ -264,7 +273,7 @@ $user = wp_get_current_user();
                       <?php echo __('Save', 'wpstorm-theme'); ?>
                     </button>
                     <button type="button"
-                      class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50  px-4 py-2 hover:shadow-md rounded-lg"
+                      class="font-semibold text-gray-600 hover:text-gray-700 bg-gray-50  px-4 py-2 hover:shadow-md rounded-lg"
                       @click="editing.description = false">
                       <?php echo __('Cancel', 'wpstorm-theme'); ?>
                     </button>
@@ -319,7 +328,7 @@ $user = wp_get_current_user();
                   <button type="submit"
                     class="font-semibold text-green-600 hover:text-green-700 bg-green-50 px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Change Password', 'wpstorm-theme'); ?></button>
                   <button type="button" @click="resetForm"
-                    class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50  px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Cancel', 'wpstorm-theme'); ?></button>
+                    class="font-semibold text-gray-600 hover:text-gray-700 bg-gray-50  px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Cancel', 'wpstorm-theme'); ?></button>
                 </div>
               </form>
             </dd>
@@ -345,10 +354,9 @@ $user = wp_get_current_user();
                     class="text-gray-900 border border-gray-300 rounded p-2">
                 </div>
                 <div class="flex flex-row gap-x-4 mt-4 justify-end">
+                  <!-- TODO: Confirm before delete -->
                   <button type="submit"
                     class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Delete Account', 'wpstorm-theme'); ?></button>
-                  <button type="button" @click="resetForm"
-                    class="font-semibold text-green-600 hover:text-green-700 bg-green-50  px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Cancel', 'wpstorm-theme'); ?></button>
                 </div>
               </form>
             </dd>
@@ -390,27 +398,36 @@ $user = wp_get_current_user();
                 x-model="postContent" required></textarea>
             </dd>
           </div>
+          <!-- TODO: let user select category -->
+
+          <!-- TODO: let user select tags -->
+
+          <!-- TODO: let user select featured image -->
+
+          <!-- TODO: let user select post status -->
+
         </dl>
         <!-- Create New Post Button -->
         <div class="flex flex-row gap-x-4 mt-4 justify-end">
           <button type="button" @click="createPost"
             class="font-semibold text-green-600 hover:text-green-700 bg-green-50 px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Create Post', 'wpstorm-theme'); ?></button>
           <button type="button" @click="resetForm"
-            class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50  px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Cancel', 'wpstorm-theme'); ?></button>
+            class="font-semibold text-gray-600 hover:text-gray-700 bg-gray-50  px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Cancel', 'wpstorm-theme'); ?></button>
         </div>
       </div>
     </div>
 
     <!-- View All Posts -->
     <div x-show="section === 'posts'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
-      <div>
+      <div
+        x-data="{ posts: <?php echo htmlspecialchars(wp_json_encode(Wpstorm_Helpers::get_posts_by_author($user->ID)), ENT_QUOTES, 'UTF-8'); ?> }">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
           <?php echo __('All Posts', 'wpstorm-theme'); ?> </h2>
         <p class="mt-1 text-sm leading-6 text-gray-700">
           <?php echo __('View all posts.', 'wpstorm-theme'); ?>
         </p>
         <!-- All Posts Table -->
-        <table class="mt-6 w-full border-t border-gray-200 text-sm leading-6">
+        <table class="mt-6 w-full border-t border-gray-200 text-sm leading-6" x-show="posts.length > 0">
           <thead>
             <tr>
               <th class="text-right font-medium text-gray-900 py-2 pl-6">Title</th>
@@ -418,18 +435,21 @@ $user = wp_get_current_user();
               <th class="text-left font-medium text-gray-900 py-2 pl-6">Actions</th>
             </tr>
           </thead>
-          <tbody
-            x-data="{ posts: <?php echo htmlspecialchars(wp_json_encode(Wpstorm_Helpers::get_posts_by_author($user->ID)), ENT_QUOTES, 'UTF-8'); ?> }">
+          <!-- TODO: Now user just see published posts, let user filter by post status -->
+          <!-- TODO: Let user can search posts by title -->
+          <!-- TODO: Let user filter posts by category & other options -->
+          <tbody>
             <template x-for="post in posts" :key="post.id">
               <tr>
                 <td class="py-2 pl-6" x-text="post.title"></td>
                 <td class="py-2 pl-6" x-text="post.excerpt"></td>
-                <td class="py-2 pl-6 flex justify-end gap-x-2">
+                <td class="py-2 pl-6 flex justify-end gap-x-2" x-data="editDeletePost(post.id)">
                   <button type="button"
                     class="font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-4 py-2 hover:shadow-md rounded-lg"
                     @click="editPost(post.id)">
                     <?php echo __('Edit', 'wpstorm-theme'); ?>
                   </button>
+                  <!-- TODO: Confirm before delete -->
                   <button type="button"
                     class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 hover:shadow-md rounded-lg"
                     @click="deletePost(post.id)">
@@ -439,9 +459,24 @@ $user = wp_get_current_user();
               </tr>
             </template>
           </tbody>
-
-
         </table>
+        <!-- Empty posts message -->
+        <template x-if="posts.length === 0">
+          <div class="py-2 pl-6" colspan="3">
+            <div class="text-center">
+              <?php echo Wpstorm_Helpers::get_svg_icon('document-plus', 'mx-auto h-12 w-12 text-gray-400',); ?>
+              <h3 class="mt-2 text-sm font-semibold text-gray-900">No post</h3>
+              <p class="mt-1 text-sm text-gray-500">Get started by creating a new post.</p>
+              <div class="mt-6">
+                <button type="button" @click="section = 'create-post'; updateUrl('create-post')"
+                  class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  <?php echo Wpstorm_Helpers::get_svg_icon('plus', '-mr-0.5 ml-1.5 h-5 w-5',); ?>
+                  New post
+                </button>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
 
