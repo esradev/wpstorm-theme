@@ -86,7 +86,9 @@
       </button>
 
       <!-- Desktop header actions for logged in users -->
-      <?php if (is_user_logged_in()) { ?>
+      <?php if (is_user_logged_in()) {
+        $user = wp_get_current_user();
+        ?>
 
       <div class="relative inline-block" x-data="{user_actions: false}">
         <button @click="user_actions = ! user_actions" class="group block flex-shrink-0">
@@ -94,7 +96,7 @@
             <img class="inline-block h-9 w-9 rounded-full" src="<?php echo get_avatar_url(get_current_user_id()); ?>"
               alt="" />
             <div class="mr-3">
-              <p class="text-base font-medium text-gray-700 group-hover:text-gray-900">
+              <p class=" text-base font-medium text-gray-700 group-hover:text-gray-900">
                 <?php echo esc_html(wp_get_current_user()->display_name) ?></p>
               <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
                 <?php echo __('Actions', 'wpstorm-theme') ?></p>

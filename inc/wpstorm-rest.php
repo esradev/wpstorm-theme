@@ -42,7 +42,8 @@ class Wpstorm_Rest
      */
     public function __construct()
     {
-      add_action('rest_api_init', [$this, 'register_rest_images']);       
+      add_action('rest_api_init', [$this, 'register_rest_images']);  
+      add_action('rest_api_init', [$this, 'register_change_password_endpoint']);
     }
 
     public function register_rest_images()
@@ -65,6 +66,93 @@ class Wpstorm_Rest
             return $img[0];
         }
         return false;
+    }
+
+    public function register_change_password_endpoint()
+    {
+        register_rest_route('wp/v2', '/users/(?P<id>\d+)/change-password', array(
+            'methods'  => 'POST',
+            'callback' => [$this, 'change_password'],
+            'params' => [
+                'id' => [
+                    'description' => 'User ID',
+                    'type' => 'integer',
+                    'required' => true
+                ],
+                'current_password' => [
+                    'description' => 'Current password',
+                    'type' => 'string',
+                    'required' => true
+                ],
+                'new_password' => [
+                    'description' => 'New password',
+                    'type' => 'string',
+                    'required' => true
+                ],
+                'confirm_password' => [
+                    'description' => 'Confirm password',
+                    'type' => 'string',
+                    'required' => true
+                ]
+            ]
+        ));
+    }
+
+    /**
+     * Change user password
+     */
+    public function change_password(WP_REST_Request $request)
+    {
+        $user = get_user_by('id', $request['id']);
+
+        $current_password = $request['current_password'];
+        $new_password = $request['new_password'];
+        $confirm_password = $request['confirm_password'];
+
+        // Check if current password is not set
+        if (!isset($current_password) || empty($current_password)) {
+            wp_send_json_error([
+                'current_password' => 'Current password is required'
+            ], 400);
+        }
+
+        // Check if current password is not correct
+        if (!wp_check_password($current_password, $user->user_pass, $user->ID)) {
+            wp_send_json_error([
+                'current_password' => 'Current password is incorrect'
+            ], 400);
+        }
+
+        // Check if password is not set
+        if (!isset($new_password) || empty($new_password)) {
+            wp_send_json_error([
+                'new_password' => 'New password is required'
+            ], 400);            
+        }
+
+        // Check if confirm password is not set
+        if (!isset($confirm_password) || empty($confirm_password)) {
+            wp_send_json_error([
+                'confirm_password' => 'Confirm password is required'
+            ], 400);
+        }
+
+        // Check if password and confirm password are not same
+        if ($new_password !== $confirm_password) {
+            wp_send_json_error([
+                'confirm_password' => 'Password and confirm password do not match'
+            ], 400);
+        }
+
+        wp_set_password($new_password, $user->ID);
+
+        $response = [
+            'status' => 200,
+            'message' => 'Password changed successfully'
+        ];
+
+        wp_send_json_success($response);
+        
     }
 
 }
