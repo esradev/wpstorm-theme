@@ -1731,6 +1731,9 @@ select {
 .inline-flex {
   display: inline-flex;
 }
+.table {
+  display: table;
+}
 .flow-root {
   display: flow-root;
 }
@@ -3509,6 +3512,11 @@ body.login {
 .hover\:bg-indigo-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(224 231 255 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-indigo-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(238 242 255 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-indigo-500:hover {

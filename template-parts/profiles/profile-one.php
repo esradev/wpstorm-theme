@@ -1,5 +1,6 @@
 <?php 
 $user = wp_get_current_user();
+
 ?>
 
 <div x-data="{ section: window.location.hash ? window.location.hash.substring(1) : 'general', updateUrl(section) {
@@ -16,29 +17,60 @@ $user = wp_get_current_user();
     class="flex overflow-x-auto border-b border-gray-900/5 py-4 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-20">
     <nav class="flex-none px-4 sm:px-6 lg:px-0">
       <ul role="list" class="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col">
+        <!-- General link -->
         <li>
           <a @click.prevent="section = 'general'; updateUrl('general')"
-            :class="{'bg-gray-50 text-indigo-600': section === 'general', 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50': section !== 'general'}"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'general', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'general'}"
             class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
             <?php
             echo Wpstorm_Helpers::get_svg_icon('user-circle', 'h-6 w-6 shrink-0', '', 'section === \'general\' ? \'text-indigo-600\' : \'text-gray-400\'');
             echo __('General', 'wpstorm-theme') ?>
           </a>
         </li>
+
+        <!-- Security link -->
         <li>
           <a @click.prevent="section = 'security'; updateUrl('security')"
-            :class="{'bg-gray-50 text-indigo-600': section === 'security', 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50': section !== 'security'}"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'security', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'security'}"
             class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
             <?php
             echo Wpstorm_Helpers::get_svg_icon('shield-check', 'h-6 w-6 shrink-0', '', 'section === \'security\' ? \'text-indigo-600\' : \'text-gray-400\'');
             echo __('Security', 'wpstorm-theme') ?>
           </a>
         </li>
+
+        <!-- Authors links -->
+        <?php if (current_user_can('edit_posts')) : ?>
+        <!-- Create new post link -->
+        <li>
+          <a @click.prevent="section = 'create-post'; updateUrl('create-post')"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'create-post', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'create-post'}"
+            class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
+            <?php
+            echo Wpstorm_Helpers::get_svg_icon('plus-circle', 'h-6 w-6 shrink-0', '', 'text-gray-400');
+            echo __('Create New Post', 'wpstorm-theme') ?>
+          </a>
+        </li>
+
+        <li>
+          <a @click.prevent="section = 'posts'; updateUrl('posts')"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'posts', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'posts'}"
+            class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
+            <?php
+            echo Wpstorm_Helpers::get_svg_icon('square-3-stack-3d', 'h-6 w-6 shrink-0', '', 'text-gray-400');
+            echo __('View All Posts', 'wpstorm-theme') ?>
+          </a>
+        </li>
+
+        <?php endif; ?>
+
       </ul>
     </nav>
   </aside>
 
   <main class="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
+
+    <!-- General Settings -->
     <div x-show="section === 'general'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div>
         <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -246,6 +278,7 @@ $user = wp_get_current_user();
       </div>
     </div>
 
+    <!-- Security Settings -->
     <div x-show="section === 'security'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div>
         <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -292,10 +325,140 @@ $user = wp_get_current_user();
             </dd>
           </div>
 
+          <!-- Delete Account -->
+          <div class="pt-6 sm:flex" x-data="deleteUserAccount('<?php echo $user->ID ?>')">
+            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+              <?php echo __('Delete Account', 'wpstorm-theme'); ?>
+            </dt>
+            <dd class="mt-1 flex flex-col gap-y-4 sm:mt-0 sm:flex-auto">
+              <form @submit.prevent="deleteAccount">
+                <div class="flex flex-row gap-x-2">
+                  <input type="checkbox" id="delete_account" class="text-gray-900 border border-gray-300 rounded p-2"
+                    required>
+                  <label for="delete_account"
+                    class="block text-gray-700"><?php echo __('Delete Account', 'wpstorm-theme'); ?></label>
+                </div>
+                <div class="flex flex-col gap-y-2 mt-2">
+                  <label for="password"
+                    class="block text-gray-700"><?php echo __('Password', 'wpstorm-theme'); ?></label>
+                  <input type="text" id="password" x-model="password"
+                    class="text-gray-900 border border-gray-300 rounded p-2">
+                </div>
+                <div class="flex flex-row gap-x-4 mt-4 justify-end">
+                  <button type="submit"
+                    class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Delete Account', 'wpstorm-theme'); ?></button>
+                  <button type="button" @click="resetForm"
+                    class="font-semibold text-green-600 hover:text-green-700 bg-green-50  px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Cancel', 'wpstorm-theme'); ?></button>
+                </div>
+              </form>
+            </dd>
+          </div>
+
 
 
         </dl>
       </div>
     </div>
+
+    <!-- Create New Post -->
+    <?php if (current_user_can('edit_posts')) : ?>
+    <div x-show="section === 'create-post'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none"
+      x-data="createPost()">
+      <div>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          <?php echo __('Create New Post', 'wpstorm-theme'); ?> </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-700">
+          <?php echo __('Create a new post.', 'wpstorm-theme'); ?>
+        </p>
+        <!-- Create New Post Form -->
+        <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+          <div class="pt-6 sm:flex">
+            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+              <?php echo __('Post Title', 'wpstorm-theme'); ?>
+            </dt>
+            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+              <input type="text" id="post_title" class="text-gray-900 border border-gray-300 rounded p-2 w-full"
+                x-model="postTitle" required>
+            </dd>
+          </div>
+          <div class="pt-6 sm:flex">
+            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+              <?php echo __('Post Content', 'wpstorm-theme'); ?>
+            </dt>
+            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+              <textarea id="post_content" class="text-gray-900 border border-gray-300 rounded p-2 w-full" rows="20"
+                x-model="postContent" required></textarea>
+            </dd>
+          </div>
+        </dl>
+        <!-- Create New Post Button -->
+        <div class="flex flex-row gap-x-4 mt-4 justify-end">
+          <button type="button" @click="createPost"
+            class="font-semibold text-green-600 hover:text-green-700 bg-green-50 px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Create Post', 'wpstorm-theme'); ?></button>
+          <button type="button" @click="resetForm"
+            class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50  px-4 py-2 hover:shadow-md rounded-lg"><?php echo __('Cancel', 'wpstorm-theme'); ?></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Posts -->
+    <div x-show="section === 'posts'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+      <div>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          <?php echo __('All Posts', 'wpstorm-theme'); ?> </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-700">
+          <?php echo __('View all posts.', 'wpstorm-theme'); ?>
+        </p>
+        <!-- All Posts Table -->
+        <table class="mt-6 w-full border-t border-gray-200 text-sm leading-6">
+          <thead>
+            <tr>
+              <th class="text-right font-medium text-gray-900 py-2 pl-6">Title</th>
+              <th class="text-right font-medium text-gray-900 py-2 pl-6">Expert</th>
+              <th class="text-left font-medium text-gray-900 py-2 pl-6">Actions</th>
+            </tr>
+          </thead>
+          <tbody
+            x-data="{ posts: <?php echo htmlspecialchars(wp_json_encode(Wpstorm_Helpers::get_posts_by_author($user->ID)), ENT_QUOTES, 'UTF-8'); ?> }">
+            <template x-for="post in posts" :key="post.id">
+              <tr>
+                <td class="py-2 pl-6" x-text="post.title"></td>
+                <td class="py-2 pl-6" x-text="post.excerpt"></td>
+                <td class="py-2 pl-6 flex justify-end gap-x-2">
+                  <button type="button"
+                    class="font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-4 py-2 hover:shadow-md rounded-lg"
+                    @click="editPost(post.id)">
+                    <?php echo __('Edit', 'wpstorm-theme'); ?>
+                  </button>
+                  <button type="button"
+                    class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 hover:shadow-md rounded-lg"
+                    @click="deletePost(post.id)">
+                    <?php echo __('Delete', 'wpstorm-theme'); ?>
+                  </button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+
+
+        </table>
+      </div>
+    </div>
+
+    <?php endif; ?>
+
+    <!-- Not Found Section -->
+    <div x-show="section !== 'general' && section !== 'security' && section !== 'create-post' && section !== 'posts'"
+      class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+      <div>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          <?php echo __('Not Found', 'wpstorm-theme'); ?> </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-700">
+          <?php echo __('The section you are looking for does not exist.', 'wpstorm-theme'); ?>
+        </p>
+      </div>
+    </div>
+
+
   </main>
 </div>

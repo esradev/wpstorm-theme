@@ -44,6 +44,7 @@ class Wpstorm_Rest
     {
       add_action('rest_api_init', [$this, 'register_rest_images']);  
       add_action('rest_api_init', [$this, 'register_change_password_endpoint']);
+      add_action('rest_api_init', [$this, 'register_delete_account_endpoint']);
     }
 
     public function register_rest_images()
@@ -153,6 +154,90 @@ class Wpstorm_Rest
 
         wp_send_json_success($response);
         
+    }
+
+    public function register_delete_account_endpoint()
+    {
+        register_rest_route('wp/v2', '/users/(?P<id>\d+)/delete-account', array(
+            'methods'  => 'POST',
+            'callback' => [$this, 'delete_account'],
+            'params' => [
+                'id' => [
+                    'description' => 'User ID',
+                    'type' => 'integer',
+                    'required' => true
+                ],
+                'password' => [
+                    'description' => 'Password',
+                    'type' => 'string',
+                    'required' => true
+                ]
+            ]
+        ));
+    }
+
+    /**
+     * Delete user account
+     */
+    public function delete_account(WP_REST_Request $request)
+    {
+        $user_id = get_current_user_id();
+        $user_to_delete = get_user_by('id', $request['id']);
+        $password = $request['password'];
+        
+        // Check if the user is logged in
+        if (!$user_id) {
+            return wp_send_json_error([
+                'message' => 'You must be logged in to delete your account'
+            ]);
+        }
+    
+        // Check if the user exists
+        if (!$user_to_delete) {
+            return wp_send_json_error([
+                'message' => 'User not found'
+            ]);
+        }
+    
+        // Check if the current user is trying to delete their own account
+        if ($user_id !== $user_to_delete->ID) {
+            return wp_send_json_error([
+                'message' => 'You can only delete your own account'
+            ]);
+        }
+    
+        // Check if password is not set
+        if (!isset($password) || empty($password)) {
+            return wp_send_json_error([
+                'message' => 'Password is required'
+            ]);
+        }
+    
+        // Check if password is correct
+        if (!wp_check_password($password, $user_to_delete->user_pass, $user_to_delete->ID)) {
+            return wp_send_json_error([
+                'message' => 'Password is incorrect'
+            ]);
+        }
+    
+        // Temporarily change the current user role to admin
+        $current_user = wp_get_current_user();
+        $current_user->add_cap('delete_users');
+        
+        // Attempt to delete the user
+        // TODO: Add second parameter to reassign posts to another user (get reassign user ID from admin settings)
+        $res = wp_delete_user($user_to_delete->ID);
+        
+        if ($res) {
+            return wp_send_json_success([
+                'status' => 200,
+                'message' => 'Account deleted successfully'
+            ]);
+        } else {
+            return wp_send_json_error([
+                'message' => 'Something went wrong'
+            ]);
+        }
     }
 
 }

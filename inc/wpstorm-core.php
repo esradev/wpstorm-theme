@@ -45,7 +45,7 @@ class Wpstorm_Core
         add_action('admin_menu', [$this, 'add_theme_menu']);
 
         // Redirect subscriber accounts out of admin and onto homepage
-        add_action('admin_init', [$this, 'redirect_subs_to_frontend']);
+        add_action('admin_init', [$this, 'restrict_admin_access']);
         add_action('wp_loaded', [$this, 'no_subs_admin_bar']);
 
 //        add_action('login_init', [$this, 'redirect_to_custom_login']);
@@ -71,12 +71,12 @@ class Wpstorm_Core
     }
 
 
-    public function redirect_subs_to_frontend()
+    public function restrict_admin_access()
     {
-        $ourCurrentUser = wp_get_current_user();
-
-        if (count($ourCurrentUser->roles) == 1 and $ourCurrentUser->roles[0] == 'subscriber') {
-            wp_redirect(site_url('/'));
+        // Check if the user is trying to access the admin area and is not an administrator
+        if (is_admin() && !current_user_can('administrator') && !(defined('DOING_AJAX') && DOING_AJAX)) {
+            // Redirect to the homepage or any other page
+            wp_redirect(site_url('/user-profile'));
             exit;
         }
     }

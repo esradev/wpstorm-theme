@@ -127,6 +127,40 @@ class Wpstorm_Helpers
 <?php
     }
 
+    // return all post by author id as json
+    public static function get_posts_by_author($author_id) {
+      // Get the current user
+      $current_user = wp_get_current_user();
+
+      // Define the query parameters based on current user
+      $args = array(
+          'post_type' => 'post', // Change this if you want to query a different post type
+          'author'    => $current_user->ID,
+          'posts_per_page' => -1, // Get all posts
+      );
+
+      // Create a new query
+      $user_posts_query = new WP_Query($args);
+
+      // Check if there are posts
+      if ($user_posts_query->have_posts()) {
+          $posts_data = [];
+          while ($user_posts_query->have_posts()) : $user_posts_query->the_post();
+              $posts_data[] = [
+                  'id'      => get_the_ID(),
+                  'title'   => get_the_title(),
+                  'excerpt' => get_the_excerpt(),
+              ];
+          endwhile;
+
+          // Restore original post data
+          wp_reset_postdata();
+
+          return $posts_data;
+      } else {
+          return [];
+      }
+    }
 
 }
 

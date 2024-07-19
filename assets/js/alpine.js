@@ -79,6 +79,7 @@ Alpine.data('searchComponent', () => ({
   }
 }))
 
+// User Edit Component
 Alpine.data('userEdit', (userFields, userId) => ({
   editing: {
     first_name: false,
@@ -122,6 +123,7 @@ Alpine.data('userEdit', (userFields, userId) => ({
   }
 }))
 
+// Password Change Component
 Alpine.data('passwordChange', userId => ({
   userId: userId,
   currentPassword: '',
@@ -180,6 +182,87 @@ Alpine.data('passwordChange', userId => ({
     this.currentPassword = ''
     this.newPassword = ''
     this.confirmPassword = ''
+  }
+}))
+
+// User Delete Component
+Alpine.data('deleteUserAccount', userId => ({
+  userId: userId,
+  password: '',
+  deleteAccount: false,
+  notify: notify,
+  deleteConfirmation: false,
+
+  async deleteAccount() {
+    try {
+      let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/users/${this.userId}/delete-account`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': alpine_wp_data.nonce
+        },
+        body: JSON.stringify({
+          id: this.userId,
+          password: this.password
+        })
+      })
+
+      let data = await response.json()
+
+      if (data.success) {
+        this.notify('Account deleted successfully! Redirecting to login page...')
+
+        // wait 1 second and then redirect to login page
+        setTimeout(() => {
+          window.location.href = alpine_wp_data.login_url
+        }, 1500)
+      } else {
+        this.notify(data.data.message || 'Unknown error', 'error')
+      }
+    } catch (error) {
+      console.error('Error:', error.message || error)
+      this.notify(error.message || error, 'error')
+    }
+  }
+}))
+
+Alpine.data('createPost', () => ({
+  postTitle: '',
+  postContent: '',
+  postCategory: [],
+  notify: notify,
+  async createPost() {
+    try {
+      let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': alpine_wp_data.nonce
+        },
+        body: JSON.stringify({
+          title: this.postTitle,
+          content: this.postContent,
+          categories: this.postCategory
+        })
+      })
+
+      let data = await response.json()
+
+      if (data.id) {
+        this.notify('Post created successfully!', 'success')
+        this.resetForm()
+      } else {
+        this.notify(data.message || 'Unknown error', 'error')
+      }
+    } catch (error) {
+      console.error('Error:', error.message || error)
+      this.notify(error.message || error, 'error')
+    }
+  },
+  resetForm() {
+    this.postTitle = ''
+    this.postContent = ''
+    this.postCategory = []
   }
 }))
 
