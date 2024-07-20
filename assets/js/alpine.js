@@ -252,6 +252,12 @@ Alpine.data('createPost', () => ({
       if (data.id) {
         this.notify('Post created successfully!', 'success')
         this.resetForm()
+
+        // Rediret to all posts page
+        setTimeout(() => {
+          window.location.href = alpine_wp_data.profile_url + '/#posts'
+          window.location.reload()
+        }, 1500)
       } else {
         this.notify(data.message || 'Unknown error', 'error')
       }
@@ -267,9 +273,10 @@ Alpine.data('createPost', () => ({
   }
 }))
 
-// Edit Delete Post Components
-Alpine.data('editDeletePost', postId => ({
-  postId: postId,
+// Delete Post Components
+Alpine.data('deletePost', post => ({
+  postId: post.id,
+  force: post.status === 'trash' ? true : false,
   notify: notify,
   async deletePost() {
     // TODO: Remove deleted post from the DOM first then send the request
@@ -279,10 +286,15 @@ Alpine.data('editDeletePost', postId => ({
         headers: {
           'Content-Type': 'application/json',
           'X-WP-Nonce': alpine_wp_data.nonce
-        }
+        },
+        body: JSON.stringify({
+          force: this.force
+        })
       })
 
       let data = await response.json()
+
+      console.log(data)
 
       if (response.ok) {
         this.notify('Post deleted successfully!', 'success')
@@ -298,8 +310,85 @@ Alpine.data('editDeletePost', postId => ({
       this.notify(error.message || error, 'error')
     }
   },
+  async restorePost() {
+    try {
+      let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts/${this.postId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': alpine_wp_data.nonce
+        },
+        body: JSON.stringify({
+          status: 'draft'
+        })
+      })
+
+      let data = await response.json()
+
+      if (response.ok) {
+        this.notify('Post restored successfully!', 'success')
+        // Reload page
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500)
+      } else {
+        this.notify(data.message || 'Unknown error', 'error')
+      }
+    } catch (error) {
+      console.error('Error:', error.message || error)
+      this.notify(error.message || error, 'error')
+    }
+  }
+}))
+
+// Edit Post Components
+Alpine.data('editPost', () => ({
+  title: '',
+  content: '',
+  postId: null,
+
+  init() {
+    this.postId = parseInt(window.location.hash.replace('#edit-post?id=', ''))
+
+    if (!this.postId) {
+      console.error('Post ID not found!')
+      return
+    }
+
+    console.log('Post ID:', this.postId)
+    this.fetchPost(this.postId)
+  },
+
+  async fetchPost(postId) {
+    try {
+      const response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts/${postId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': alpine_wp_data.nonce
+        }
+      })
+      const data = await response.json()
+      console.log(data)
+
+      if (response.ok) {
+        this.title = data.title.rendered
+        // Remove HTML tags from content
+        this.content = data.content.rendered.replace(/<[^>]*>?/gm, '')
+      } else {
+        console.error('Error fetching post:', data.message || 'Unknown error')
+      }
+    } catch (error) {
+      console.error('Error fetching post:', error)
+    }
+  },
+
   async updatePost() {
-    // TODO: Make this work later
+    // Your update logic here
+  },
+
+  resetForm() {
+    // Your reset form logic here
   }
 }))
 

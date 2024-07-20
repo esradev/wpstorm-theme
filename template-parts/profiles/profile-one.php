@@ -11,8 +11,7 @@ $user = wp_get_current_user();
         }
         const baseUrl = pathArray.join('/');
         history.pushState(null, '', `${baseUrl}#${section}`);
-        }
-        }" class="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
+        }}" class="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
   <aside
     class="flex overflow-x-auto border-b border-gray-900/5 py-4 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-20">
     <nav class="flex-none px-4 sm:px-6 lg:px-0">
@@ -431,7 +430,7 @@ $user = wp_get_current_user();
           <thead>
             <tr>
               <th class="text-right font-medium text-gray-900 py-2 pl-6">Title</th>
-              <th class="text-right font-medium text-gray-900 py-2 pl-6">Expert</th>
+              <th class="text-right font-medium text-gray-900 py-2 pl-6">Status</th>
               <th class="text-left font-medium text-gray-900 py-2 pl-6">Actions</th>
             </tr>
           </thead>
@@ -442,19 +441,57 @@ $user = wp_get_current_user();
             <template x-for="post in posts" :key="post.id">
               <tr>
                 <td class="py-2 pl-6" x-text="post.title"></td>
-                <td class="py-2 pl-6" x-text="post.excerpt"></td>
-                <td class="py-2 pl-6 flex justify-end gap-x-2" x-data="editDeletePost(post.id)">
+                <td class="py-2 pl-6">
+                  <div x-text="post.status" class="inline-block px-2 py-1 text-xs font-semibold rounded-lg" :class="{
+                    'bg-green-100 text-green-600': post.status === 'publish',
+                    'bg-yellow-100 text-yellow-600': post.status === 'pending',
+                    'bg-gray-100 text-gray-600': post.status === 'draft',
+                    'bg-red-100 text-red-600': post.status === 'trash',
+                    }"></div>
+                </td>
+                <td class="py-2 pl-6 flex justify-end gap-x-2" x-data="deletePost(post)">
+                  <!-- View Button -->
+                  <a type="button"
+                    class="inline-flex items-center font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 p-2 hover:shadow-md rounded-lg"
+                    :href="post.link" target="_blank">
+                    <?php echo Wpstorm_Helpers::get_svg_icon('eye', 'h-5 w-5',); ?>
+                    <span class="sr-only"><?php echo __('View', 'wpstorm-theme'); ?></span>
+                  </a>
+                  <!-- Edit Button -->
                   <button type="button"
-                    class="font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-4 py-2 hover:shadow-md rounded-lg"
-                    @click="editPost(post.id)">
-                    <?php echo __('Edit', 'wpstorm-theme'); ?>
+                    class="inline-flex items-center font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 p-2 hover:shadow-md rounded-lg"
+                    @click="() => { 
+                                const postId = post.id;
+                                section = `edit-post?id=${postId}`;
+                                updateUrl(section); 
+                                postToEdit = post;
+                            }">
+                    <?php echo Wpstorm_Helpers::get_svg_icon('pencil-square', 'h-5 w-5',); ?>
+                    <span class="sr-only"><?php echo __('Edit', 'wpstorm-theme'); ?></span>
                   </button>
                   <!-- TODO: Confirm before delete -->
-                  <button type="button"
-                    class="font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 hover:shadow-md rounded-lg"
-                    @click="deletePost(post.id)">
-                    <?php echo __('Delete', 'wpstorm-theme'); ?>
+                  <button type="button" x-show="post.status !== 'trash'"
+                    class="inline-flex items-center font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 p-2 hover:shadow-md rounded-lg"
+                    @click="deletePost(post)">
+                    <?php echo Wpstorm_Helpers::get_svg_icon('trash', 'h-5 w-5',); ?>
+                    <span class="sr-only"><?php echo __('Delete', 'wpstorm-theme'); ?></span>
                   </button>
+
+                  <button type="button" x-show="post.status === 'trash'"
+                    class="inline-flex items-center font-semibold text-green-600 hover:text-green-700 bg-green-50 p-2 hover:shadow-md rounded-lg"
+                    @click="restorePost(post)">
+                    <?php echo Wpstorm_Helpers::get_svg_icon('arrow-path', 'h-5 w-5',);?>
+                    <span class="sr-only"><?php echo __('Restore', 'wpstorm-theme'); ?></span>
+                  </button>
+
+                  <button type="button" x-show="post.status === 'trash'"
+                    class="inline-flex items-center font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 hover:shadow-md rounded-lg"
+                    @click="deletePost(post)">
+                    <?php
+                    echo Wpstorm_Helpers::get_svg_icon('trash', 'h-5 w-5 ml-1 -mr-0.5',);
+                    echo __('Delete Permanently', 'wpstorm-theme'); ?>
+                  </button>
+
                 </td>
               </tr>
             </template>
@@ -480,10 +517,57 @@ $user = wp_get_current_user();
       </div>
     </div>
 
+    <!-- Edit Post -->
+    <div x-show="section.startsWith('edit-post?id=')"
+      class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+      <div x-data="editPost">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          <?php echo __('Edit Post', 'wpstorm-theme'); ?>
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-700">
+          <?php echo __('Edit your post.', 'wpstorm-theme'); ?>
+        </p>
+        <!-- Edit Post Form -->
+        <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+          <div class="pt-6 sm:flex">
+            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+              <?php echo __('Post Title', 'wpstorm-theme'); ?>
+            </dt>
+            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+              <input type="text" id="post_title" class="text-gray-900 border border-gray-300 rounded p-2 w-full"
+                x-model="title" required>
+            </dd>
+          </div>
+          <div class="pt-6 sm:flex">
+            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+              <?php echo __('Post Content', 'wpstorm-theme'); ?>
+            </dt>
+            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+              <textarea id="post_content" class="text-gray-900 border border-gray-300 rounded p-2 w-full" rows="20"
+                x-model="content" required></textarea>
+            </dd>
+          </div>
+        </dl>
+        <!-- Edit Post Button -->
+        <div class="flex flex-row gap-x-4 mt-4 justify-end">
+          <button type="button" @click="updatePost"
+            class="font-semibold text-green-600 hover:text-green-700 bg-green-50 px-4 py-2 hover:shadow-md rounded-lg">
+            <?php echo __('Update Post', 'wpstorm-theme'); ?>
+          </button>
+          <button type="button" @click="resetForm"
+            class="font-semibold text-gray-600 hover:text-gray-700 bg-gray-50  px-4 py-2 hover:shadow-md rounded-lg">
+            <?php echo __('Cancel', 'wpstorm-theme'); ?>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
     <?php endif; ?>
 
     <!-- Not Found Section -->
-    <div x-show="section !== 'general' && section !== 'security' && section !== 'create-post' && section !== 'posts'"
+    <div
+      x-show="section !== 'general' && section !== 'security' && section !== 'create-post' && section !== 'posts' && !section.startsWith('edit-post?id=')"
       class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div>
         <h2 class="text-base font-semibold leading-7 text-gray-900">
