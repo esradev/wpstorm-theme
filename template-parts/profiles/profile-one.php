@@ -79,7 +79,8 @@ $user = wp_get_current_user();
   <main class="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
 
     <!-- General Settings -->
-    <div x-show="section === 'general'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+    <div x-cloak x-show="section === 'general'"
+      class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div>
         <h2 class="text-base font-semibold leading-7 text-gray-900">
           <?php echo __('Profile Information', 'wpstorm-theme'); ?> </h2>
@@ -287,7 +288,8 @@ $user = wp_get_current_user();
     </div>
 
     <!-- Security Settings -->
-    <div x-show="section === 'security'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+    <div x-cloak x-show="section === 'security'"
+      class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div>
         <h2 class="text-base font-semibold leading-7 text-gray-900">
           <?php echo __('Security Settings', 'wpstorm-theme'); ?> </h2>
@@ -369,8 +371,8 @@ $user = wp_get_current_user();
 
     <!-- Create New Post -->
     <?php if (current_user_can('edit_posts')) : ?>
-    <div x-show="section === 'create-post'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none"
-      x-data="createPost()">
+    <div x-cloak x-show="section === 'create-post'"
+      class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none" x-data="createPost()">
       <div>
         <h2 class="text-base font-semibold leading-7 text-gray-900">
           <?php echo __('Create New Post', 'wpstorm-theme'); ?> </h2>
@@ -393,8 +395,8 @@ $user = wp_get_current_user();
               <?php echo __('Post Content', 'wpstorm-theme'); ?>
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-              <textarea id="post_content" class="text-gray-900 border border-gray-300 rounded p-2 w-full" rows="20"
-                x-model="postContent" required></textarea>
+              <textarea id="text-editor" class="text-gray-900 border border-gray-300 rounded p-2 w-full"
+                rows="20"></textarea>
             </dd>
           </div>
           <!-- TODO: let user select category -->
@@ -417,7 +419,7 @@ $user = wp_get_current_user();
     </div>
 
     <!-- View All Posts -->
-    <div x-show="section === 'posts'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+    <div x-cloak x-show="section === 'posts'" class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div
         x-data="{ posts: <?php echo htmlspecialchars(wp_json_encode(Wpstorm_Helpers::get_posts_by_author($user->ID)), ENT_QUOTES, 'UTF-8'); ?> }">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -452,7 +454,7 @@ $user = wp_get_current_user();
                 <td class="py-2 pl-6 flex justify-end gap-x-2" x-data="deletePost(post)">
                   <!-- View Button -->
                   <a type="button"
-                    class="inline-flex items-center font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 p-2 hover:shadow-md rounded-lg"
+                    class="inline-flex items-center font-semibold text-green-600 hover:text-green-700 bg-green-50 p-2 hover:shadow-md rounded-lg"
                     :href="post.link" target="_blank">
                     <?php echo Wpstorm_Helpers::get_svg_icon('eye', 'h-5 w-5',); ?>
                     <span class="sr-only"><?php echo __('View', 'wpstorm-theme'); ?></span>
@@ -478,7 +480,7 @@ $user = wp_get_current_user();
                   </button>
 
                   <button type="button" x-show="post.status === 'trash'"
-                    class="inline-flex items-center font-semibold text-green-600 hover:text-green-700 bg-green-50 p-2 hover:shadow-md rounded-lg"
+                    class="inline-flex items-center font-semibold text-yellow-600 hover:text-yellow-700 bg-yellow-50 p-2 hover:shadow-md rounded-lg"
                     @click="restorePost(post)">
                     <?php echo Wpstorm_Helpers::get_svg_icon('arrow-path', 'h-5 w-5',);?>
                     <span class="sr-only"><?php echo __('Restore', 'wpstorm-theme'); ?></span>
@@ -518,7 +520,7 @@ $user = wp_get_current_user();
     </div>
 
     <!-- Edit Post -->
-    <div x-show="section.startsWith('edit-post?id=')"
+    <div x-cloak x-show="section.startsWith('edit-post?id=')"
       class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div x-data="editPost">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -566,7 +568,7 @@ $user = wp_get_current_user();
     <?php endif; ?>
 
     <!-- Not Found Section -->
-    <div
+    <div x-cloak
       x-show="section !== 'general' && section !== 'security' && section !== 'create-post' && section !== 'posts' && !section.startsWith('edit-post?id=')"
       class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
       <div>

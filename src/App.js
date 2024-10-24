@@ -1,13 +1,11 @@
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { useImmerReducer } from 'use-immer'
 
 import StateContext from './StateContext'
 import DispatchContext from './DispatchContext'
 
-import Header from './layouts/Header'
-import Sidebar from './layouts/Sidebar'
-import Footer from './layouts/Footer'
-import SidebarRoutes from './layouts/SidebarRoutes'
+import Layout from '@/layout'
+import { items } from './lib/utils'
 
 const App = () => {
   const initialState = {
@@ -44,18 +42,18 @@ const App = () => {
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
-        <div className="flex grow flex-col-2">
-          <Sidebar />
-          <div className="flex grow px-6 py-6 my-3">
-            <div>
+        <Layout
+          children={
+            <div className="p-2">
               <Routes>
-                {SidebarRoutes.map((route, index) => (
-                  <Route key={index} path={route.path} element={<route.component label={route.label} />} />
+                {items.map((route, index) => (
+                  <Route key={index} path={route.url} element={<route.component label={route.title} />} />
                 ))}
+                <Route key="not_found" path="*" element={''} />
               </Routes>
             </div>
-          </div>
-        </div>
+          }
+        />
       </DispatchContext.Provider>
     </StateContext.Provider>
   )
