@@ -5,7 +5,8 @@ export interface FormInput {
   label: string
   placeholder?: string
   description?: string
-  type: 'text' | 'textarea' | 'switch' | 'email' | 'number'
+  type: 'text' | 'textarea' | 'switch' | 'email' | 'number' | 'select'
+  options?: { value: string; label: string }[]
 }
 
 export interface AppFormProps {
