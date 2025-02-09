@@ -1,86 +1,86 @@
-import Alpine from 'alpinejs'
-import focus from '@alpinejs/focus'
+import Alpine from "alpinejs";
+import focus from "@alpinejs/focus";
 
-import Toastify from 'toastify-js'
-import 'toastify-js/src/toastify.css'
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
-Alpine.plugin(focus)
+Alpine.plugin(focus);
 
-window.Alpine = Alpine
+window.Alpine = Alpine;
 
-Alpine.store('search', {
+Alpine.store("search", {
   search_modal: false
-})
+});
 
-const notify = (message, type = 'success') => {
+const notify = (message, type = "success") => {
   Toastify({
     text: message,
     duration: 1500,
-    gravity: 'bottom',
-    position: 'right',
+    gravity: "bottom",
+    position: "right",
     style: {
-      background: type === 'success' ? '#25ac57' : '#e11d48'
+      background: type === "success" ? "#25ac57" : "#e11d48"
     }
-  }).showToast()
-}
+  }).showToast();
+};
 
-Alpine.data('searchComponent', () => ({
-  searchTerm: '',
+Alpine.data("searchComponent", () => ({
+  searchTerm: "",
   resultes: [],
   loading: false,
   openSearchModal() {
-    this.$store.search.search_modal = true
+    this.$store.search.search_modal = true;
   },
   closeSearchModal() {
-    this.$store.search.search_modal = false
-    this.searchTerm = ''
-    this.resultes = []
-    this.loading = false
+    this.$store.search.search_modal = false;
+    this.searchTerm = "";
+    this.resultes = [];
+    this.loading = false;
   },
   init() {
-    document.addEventListener('keydown', e => {
-      if (e.key === '/' && !this.$store.search.search_modal) {
-        e.preventDefault()
-        this.openSearchModal()
+    document.addEventListener("keydown", e => {
+      if (e.key === "/" && !this.$store.search.search_modal) {
+        e.preventDefault();
+        this.openSearchModal();
       }
-      if (e.key === 'Escape' && this.$store.search.search_modal) {
-        e.preventDefault()
-        this.closeSearchModal()
+      if (e.key === "Escape" && this.$store.search.search_modal) {
+        e.preventDefault();
+        this.closeSearchModal();
       }
-    })
+    });
   },
   fetchDebounced: Alpine.debounce(function () {
     if (!this.searchTerm) {
-      this.resultes = []
-      this.loading = false
-      return
+      this.resultes = [];
+      this.loading = false;
+      return;
     }
     fetch(`${alpine_wp_data.rest_url}wp/v2/posts?search=${this.searchTerm}`)
       .then(res => res.json())
       .then(data => {
-        this.resultes = data
-        this.loading = false
+        this.resultes = data;
+        this.loading = false;
       })
       .catch(error => {
-        console.error('Error fetching data:', error)
-        this.loading = false
-      })
+        console.error("Error fetching data:", error);
+        this.loading = false;
+      });
   }, 700), // 700ms debounce
   handleInput() {
-    this.loading = true
-    this.fetchDebounced()
+    this.loading = true;
+    this.fetchDebounced();
   },
   truncateExcerpt(excerpt, words) {
-    const div = document.createElement('div')
-    div.innerHTML = excerpt
-    const text = div.textContent || div.innerText || ''
-    const truncated = text.split(' ').slice(0, words).join(' ') + '...'
-    return truncated
+    const div = document.createElement("div");
+    div.innerHTML = excerpt;
+    const text = div.textContent || div.innerText || "";
+    const truncated = text.split(" ").slice(0, words).join(" ") + "...";
+    return truncated;
   }
-}))
+}));
 
 // User Edit Component
-Alpine.data('userEdit', (userFields, userId) => ({
+Alpine.data("userEdit", (userFields, userId) => ({
   editing: {
     first_name: false,
     last_name: false,
@@ -94,55 +94,55 @@ Alpine.data('userEdit', (userFields, userId) => ({
   async saveChanges(field) {
     try {
       let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/users/${userId}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': alpine_wp_data.nonce
+          "Content-Type": "application/json",
+          "X-WP-Nonce": alpine_wp_data.nonce
         },
         body: JSON.stringify({ [field]: this.fields[field] })
-      })
+      });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      let data = await response.json()
+      let data = await response.json();
 
       if (data.id) {
-        this.editing[field] = false
-        this.notify('تنظیمات با موفقیت ذخیره شدند!')
-        console.log('Success:', data)
+        this.editing[field] = false;
+        this.notify("تنظیمات با موفقیت ذخیره شدند!");
+        console.log("Success:", data);
       } else {
-        console.error('Error:', data.message || 'Unknown error')
-        this.notify(data.message || 'Unknown error', 'error')
+        console.error("Error:", data.message || "Unknown error");
+        this.notify(data.message || "Unknown error", "error");
       }
     } catch (error) {
-      console.error('Error:', error.message || error)
-      this.notify(error.message || error, 'error')
+      console.error("Error:", error.message || error);
+      this.notify(error.message || error, "error");
     }
   }
-}))
+}));
 
 // Password Change Component
-Alpine.data('passwordChange', userId => ({
+Alpine.data("passwordChange", userId => ({
   userId: userId,
-  currentPassword: '',
-  newPassword: '',
-  confirmPassword: '',
+  currentPassword: "",
+  newPassword: "",
+  confirmPassword: "",
   notify: notify,
 
   async changePassword() {
     if (this.newPassword !== this.confirmPassword) {
-      notify('New passwords do not match', 'error')
-      return
+      notify("New passwords do not match", "error");
+      return;
     }
 
     try {
       let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/users/${this.userId}/change-password`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-WP-Nonce': alpine_wp_data.nonce
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-WP-Nonce": alpine_wp_data.nonce
         },
         body: new URLSearchParams({
           id: this.userId,
@@ -150,45 +150,45 @@ Alpine.data('passwordChange', userId => ({
           new_password: this.newPassword,
           confirm_password: this.confirmPassword
         })
-      })
+      });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      let data = await response.json()
+      let data = await response.json();
 
-      console.log(data)
+      console.log(data);
 
       if (data.success) {
-        this.notify('Password changed successfully! Redirecting to login page...')
-        this.resetForm()
+        this.notify("Password changed successfully! Redirecting to login page...");
+        this.resetForm();
 
         // wait 1 second and then redirect to login page
         setTimeout(() => {
-          window.location.href = alpine_wp_data.login_url
-        }, 1500)
+          window.location.href = alpine_wp_data.login_url;
+        }, 1500);
       } else {
-        console.error('Error:', data.message || 'Unknown error')
-        this.notify(data.message || 'Unknown error', 'error')
+        console.error("Error:", data.message || "Unknown error");
+        this.notify(data.message || "Unknown error", "error");
       }
     } catch (error) {
-      console.error('Error:', error.message || error)
-      this.notify(error.message || error, 'error')
+      console.error("Error:", error.message || error);
+      this.notify(error.message || error, "error");
     }
   },
 
   resetForm() {
-    this.currentPassword = ''
-    this.newPassword = ''
-    this.confirmPassword = ''
+    this.currentPassword = "";
+    this.newPassword = "";
+    this.confirmPassword = "";
   }
-}))
+}));
 
 // User Delete Component
-Alpine.data('deleteUserAccount', userId => ({
+Alpine.data("deleteUserAccount", userId => ({
   userId: userId,
-  password: '',
+  password: "",
   deleteAccount: false,
   notify: notify,
   deleteConfirmation: false,
@@ -196,190 +196,190 @@ Alpine.data('deleteUserAccount', userId => ({
   async deleteAccount() {
     try {
       let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/users/${this.userId}/delete-account`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': alpine_wp_data.nonce
+          "Content-Type": "application/json",
+          "X-WP-Nonce": alpine_wp_data.nonce
         },
         body: JSON.stringify({
           id: this.userId,
           password: this.password
         })
-      })
+      });
 
-      let data = await response.json()
+      let data = await response.json();
 
       if (data.success) {
-        this.notify('Account deleted successfully! Redirecting to login page...')
+        this.notify("Account deleted successfully! Redirecting to login page...");
 
         // wait 1 second and then redirect to login page
         setTimeout(() => {
-          window.location.href = alpine_wp_data.login_url
-        }, 1500)
+          window.location.href = alpine_wp_data.login_url;
+        }, 1500);
       } else {
-        this.notify(data.data.message || 'Unknown error', 'error')
+        this.notify(data.data.message || "Unknown error", "error");
       }
     } catch (error) {
-      console.error('Error:', error.message || error)
-      this.notify(error.message || error, 'error')
+      console.error("Error:", error.message || error);
+      this.notify(error.message || error, "error");
     }
   }
-}))
+}));
 
 // Create Post Component
-Alpine.data('createPost', () => ({
-  postTitle: '',
-  postContent: '',
+Alpine.data("createPost", () => ({
+  postTitle: "",
+  postContent: "",
   postCategory: [],
   notify: notify,
   async createPost() {
     try {
       let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': alpine_wp_data.nonce
+          "Content-Type": "application/json",
+          "X-WP-Nonce": alpine_wp_data.nonce
         },
         body: JSON.stringify({
           title: this.postTitle,
           content: this.postContent,
           categories: this.postCategory
         })
-      })
+      });
 
-      let data = await response.json()
+      let data = await response.json();
 
       if (data.id) {
-        this.notify('Post created successfully!', 'success')
-        this.resetForm()
+        this.notify("Post created successfully!", "success");
+        this.resetForm();
 
         // Rediret to all posts page
         setTimeout(() => {
-          window.location.href = alpine_wp_data.profile_url + '/#posts'
-          window.location.reload()
-        }, 1500)
+          window.location.href = alpine_wp_data.profile_url + "/#posts";
+          window.location.reload();
+        }, 1500);
       } else {
-        this.notify(data.message || 'Unknown error', 'error')
+        this.notify(data.message || "Unknown error", "error");
       }
     } catch (error) {
-      console.error('Error:', error.message || error)
-      this.notify(error.message || error, 'error')
+      console.error("Error:", error.message || error);
+      this.notify(error.message || error, "error");
     }
   },
   resetForm() {
-    this.postTitle = ''
-    this.postContent = ''
-    this.postCategory = []
+    this.postTitle = "";
+    this.postContent = "";
+    this.postCategory = [];
   }
-}))
+}));
 
 // Delete Post Components
-Alpine.data('deletePost', post => ({
+Alpine.data("deletePost", post => ({
   postId: post.id,
-  force: post.status === 'trash' ? true : false,
+  force: post.status === "trash" ? true : false,
   notify: notify,
   async deletePost() {
     // TODO: Remove deleted post from the DOM first then send the request
     try {
       let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts/${this.postId}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': alpine_wp_data.nonce
+          "Content-Type": "application/json",
+          "X-WP-Nonce": alpine_wp_data.nonce
         },
         body: JSON.stringify({
           force: this.force
         })
-      })
+      });
 
-      let data = await response.json()
+      let data = await response.json();
 
-      console.log(data)
+      console.log(data);
 
       if (response.ok) {
-        this.notify('Post deleted successfully!', 'success')
+        this.notify("Post deleted successfully!", "success");
         // Reload page
         setTimeout(() => {
-          window.location.reload()
-        }, 1500)
+          window.location.reload();
+        }, 1500);
       } else {
-        this.notify(data.message || 'Unknown error', 'error')
+        this.notify(data.message || "Unknown error", "error");
       }
     } catch (error) {
-      console.error('Error:', error.message || error)
-      this.notify(error.message || error, 'error')
+      console.error("Error:", error.message || error);
+      this.notify(error.message || error, "error");
     }
   },
   async restorePost() {
     try {
       let response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts/${this.postId}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': alpine_wp_data.nonce
+          "Content-Type": "application/json",
+          "X-WP-Nonce": alpine_wp_data.nonce
         },
         body: JSON.stringify({
-          status: 'draft'
+          status: "draft"
         })
-      })
+      });
 
-      let data = await response.json()
+      let data = await response.json();
 
       if (response.ok) {
-        this.notify('Post restored successfully!', 'success')
+        this.notify("Post restored successfully!", "success");
         // Reload page
         setTimeout(() => {
-          window.location.reload()
-        }, 1500)
+          window.location.reload();
+        }, 1500);
       } else {
-        this.notify(data.message || 'Unknown error', 'error')
+        this.notify(data.message || "Unknown error", "error");
       }
     } catch (error) {
-      console.error('Error:', error.message || error)
-      this.notify(error.message || error, 'error')
+      console.error("Error:", error.message || error);
+      this.notify(error.message || error, "error");
     }
   }
-}))
+}));
 
 // Edit Post Components
-Alpine.data('editPost', () => ({
-  title: '',
-  content: '',
+Alpine.data("editPost", () => ({
+  title: "",
+  content: "",
   postId: null,
 
   init() {
-    this.postId = parseInt(window.location.hash.replace('#edit-post?id=', ''))
+    this.postId = parseInt(window.location.hash.replace("#edit-post?id=", ""));
 
     if (!this.postId) {
-      console.error('Post ID not found!')
-      return
+      console.error("Post ID not found!");
+      return;
     }
 
-    console.log('Post ID:', this.postId)
-    this.fetchPost(this.postId)
+    console.log("Post ID:", this.postId);
+    this.fetchPost(this.postId);
   },
 
   async fetchPost(postId) {
     try {
       const response = await fetch(`${alpine_wp_data.rest_url}wp/v2/posts/${postId}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': alpine_wp_data.nonce
+          "Content-Type": "application/json",
+          "X-WP-Nonce": alpine_wp_data.nonce
         }
-      })
-      const data = await response.json()
-      console.log(data)
+      });
+      const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
-        this.title = data.title.rendered
+        this.title = data.title.rendered;
         // Remove HTML tags from content
-        this.content = data.content.rendered.replace(/<[^>]*>?/gm, '')
+        this.content = data.content.rendered.replace(/<[^>]*>?/gm, "");
       } else {
-        console.error('Error fetching post:', data.message || 'Unknown error')
+        console.error("Error fetching post:", data.message || "Unknown error");
       }
     } catch (error) {
-      console.error('Error fetching post:', error)
+      console.error("Error fetching post:", error);
     }
   },
 
@@ -390,6 +390,6 @@ Alpine.data('editPost', () => ({
   resetForm() {
     // Your reset form logic here
   }
-}))
+}));
 
-Alpine.start()
+Alpine.start();

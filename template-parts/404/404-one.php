@@ -14,7 +14,7 @@
             // Retrieve the 404 menu items
             $menu_name = '404-menu';
             $locations = get_nav_menu_locations();
-            $menu = wp_get_nav_menu_object($locations[$menu_name]);
+            $menu = isset($locations[$menu_name]) ? wp_get_nav_menu_object($locations[$menu_name]) : false;
 
             if ($menu) {
                 $menu_items = wp_get_nav_menu_items($menu->term_id);
