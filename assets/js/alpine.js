@@ -191,7 +191,10 @@ Alpine.data("deleteUserAccount", userId => ({
   password: "",
   deleteAccount: false,
   notify: notify,
+  message: "",
+  messageStatus: "success",
   deleteConfirmation: false,
+  showConfirmationDialog: false,
 
   async deleteAccount() {
     try {
@@ -210,6 +213,7 @@ Alpine.data("deleteUserAccount", userId => ({
       let data = await response.json();
 
       if (data.success) {
+        this.message = "Account deleted successfully! Redirecting to login page...";
         this.notify("Account deleted successfully! Redirecting to login page...");
 
         // wait 1 second and then redirect to login page
@@ -217,11 +221,15 @@ Alpine.data("deleteUserAccount", userId => ({
           window.location.href = alpine_wp_data.login_url;
         }, 1500);
       } else {
+        this.message = data.message || "Unknown error";
+        this.messageStatus = "error";
         this.notify(data.data.message || "Unknown error", "error");
       }
     } catch (error) {
       console.error("Error:", error.message || error);
       this.notify(error.message || error, "error");
+      this.message = error.message || error;
+      this.messageStatus = "error";
     }
   }
 }));

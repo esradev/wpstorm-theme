@@ -392,10 +392,16 @@ $user = wp_get_current_user();
                         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-rose-600 text-base font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 sm:ml-3 sm:w-auto sm:text-sm">
                         <?php echo __('Delete', 'wpstorm-theme'); ?>
                       </button>
-                        <button type="button" @click="showConfirmationDialog = false; password = ''"
+                        <button type="button" @click="showConfirmationDialog = false; password = ''; message = ''; messageStatus = '';"
                         class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
                         <?php echo __('Cancel', 'wpstorm-theme'); ?>
                         </button>
+                    </div>
+                    <!-- Show sucess or error message -->
+                    <div x-show="message" x-text="message"
+                    class="border-l-4 p-4 mt-4" x-transition
+                    :class="{'bg-green-50 border-green-400': messageStatus === 'success' , 'bg-rose-50 border-rose-400': messageStatus === 'error'}">
+                    >
                     </div>
                   </div>
                 </div>
@@ -433,7 +439,7 @@ $user = wp_get_current_user();
               <?php echo __('Post Content', 'wpstorm-theme'); ?>
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-              <textarea id="text-editor" class="text-gray-900 border border-gray-300 rounded p-2 w-full"
+              <textarea id="text-content" x-model="postContent" class="text-gray-900 border border-gray-300 rounded p-2 w-full"
                 rows="20"></textarea>
             </dd>
           </div>

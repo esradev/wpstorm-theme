@@ -2530,6 +2530,9 @@ select {
 .border-l {
   border-left-width: 1px;
 }
+.border-l-4 {
+  border-left-width: 4px;
+}
 .border-r {
   border-right-width: 1px;
 }
@@ -2574,6 +2577,10 @@ select {
 .border-gray-900\/5 {
   border-color: rgb(17 24 39 / 0.05);
 }
+.border-green-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(74 222 128 / var(--tw-border-opacity, 1));
+}
 .border-green-600 {
   --tw-border-opacity: 1;
   border-color: rgb(22 163 74 / var(--tw-border-opacity, 1));
@@ -2591,6 +2598,10 @@ select {
 }
 .border-primary {
   border-color: hsl(var(--primary));
+}
+.border-rose-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(251 113 133 / var(--tw-border-opacity, 1));
 }
 .border-sidebar-border {
   border-color: hsl(var(--sidebar-border));
