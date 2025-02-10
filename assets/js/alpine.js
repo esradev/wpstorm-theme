@@ -358,9 +358,9 @@ Alpine.data("editPost", () => ({
   title: "",
   content: "",
   postId: null,
-
+  // TODO: Watch for postId changes and fetch the post again
   init() {
-    this.postId = parseInt(window.location.hash.replace("#edit-post?id=", ""));
+    this.postId = parseInt(new URLSearchParams(window.location.search).get("id"));
 
     if (!this.postId) {
       console.error("Post ID not found!");
@@ -407,10 +407,23 @@ Alpine.data("editPost", () => ({
 Alpine.data("profilePage", () => ({
   section: new URLSearchParams(window.location.search).get("section") || "general",
 
-  updateUrl(section) {
+  updateUrl(section, postId = null) {
     const url = new URL(window.location);
-    url.searchParams.set("section", section);
-    window.history.pushState({ section }, "", url);
+    const params = new URLSearchParams(window.location.search);
+
+    // Always update the section query parameter
+    params.set("section", section);
+
+    // Add the postId only if it's provided and the section is 'edit-post'
+    if (postId && section === "edit-post") {
+      params.set("id", postId); // Add the postId as query parameter
+    } else {
+      // Remove 'id' from the URL if we are not in the 'edit-post' section
+      params.delete("id");
+    }
+
+    // Update the URL and push the new state
+    window.history.pushState({}, "", `${url.pathname}?${params.toString()}`);
     this.section = section;
 
     // Smooth scroll to top

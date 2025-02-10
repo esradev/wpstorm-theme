@@ -95,16 +95,14 @@
               <!-- Edit Button -->
               <button type="button"
                 class="inline-flex items-center font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 p-2 hover:shadow-md rounded-lg"
-                @click="() => { 
-                            const postId = post.id;
-                            section = `edit-post?id=${postId}`;
-                            updateUrl(section); 
-                            postToEdit = post;
-                        }">
+                @click="() => {
+                    const postId = post.id;
+                    updateUrl('edit-post', postId); // Pass section and postId to the function
+                    postToEdit = post;  // Assuming you're using this to store the post for editing
+                }">
                 <?php echo Wpstorm_Helpers::get_svg_icon('pencil-square', 'h-5 w-5',); ?>
                 <span class="sr-only"><?php echo __('Edit', 'wpstorm-theme'); ?></span>
               </button>
-              <!-- TODO: Confirm before delete -->
               <button type="button" x-show="post.status !== 'trash'"
                 class="inline-flex items-center font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 p-2 hover:shadow-md rounded-lg"
                 @click="deletePost(post)">
@@ -154,8 +152,8 @@
 
 
 <!-- Edit Post -->
-<div x-cloak x-show="section.startsWith('edit-post?id=')">
-  <div x-data="editPost">
+<div x-cloak x-show="section === 'edit-post'" x-data="editPost" x-init="fetchPost(postId)">
+  <div>
     <h2 class="text-base font-semibold leading-7 text-gray-900">
       <?php echo __('Edit Post', 'wpstorm-theme'); ?>
     </h2>
