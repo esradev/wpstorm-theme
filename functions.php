@@ -20,4 +20,7 @@ require_once get_theme_file_path('/inc/wpstorm-support.php');
 require_once get_theme_file_path('/inc/wpstorm-customizer.php');
 require_once get_theme_file_path('/inc/wpstorm-templates.php');
 
-// require_once get_theme_file_path('/inc/wpstorm-woocommerce.php');
+// check if WooCommerce is active 
+if (class_exists('WooCommerce')) {
+    require_once get_theme_file_path('/inc/wpstorm-woocommerce.php');
+}

@@ -7,6 +7,8 @@
  * @since 1.0.0
  */
 
+ $is_woocommerce_active = class_exists('WooCommerce');
+
 ?>
 <aside
     class="flex overflow-x-auto border-b border-gray-900/5 py-4 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-20">
@@ -56,6 +58,53 @@
             echo __('View All Posts', 'wpstorm-theme') ?>
           </a>
         </li>
+        <?php endif; ?>
+
+        <?php if ($is_woocommerce_active) : ?> 
+        <!-- Orders link -->
+        <li>
+          <a @click.prevent="updateUrl('orders')"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'orders', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'orders'}"
+            class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
+            <?php
+            echo Wpstorm_Helpers::get_svg_icon('shopping-bag', 'h-6 w-6 shrink-0', '', 'text-gray-400');
+            echo __('Orders', 'wpstorm-theme') ?>
+          </a>
+        </li>
+        
+        <!-- Addresses link -->
+        <li>
+          <a @click.prevent="updateUrl('addresses')"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'addresses', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'addresses'}"
+            class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
+            <?php
+            echo Wpstorm_Helpers::get_svg_icon('map', 'h-6 w-6 shrink-0', '', 'text-gray-400');
+            echo __('Addresses', 'wpstorm-theme') ?>
+          </a>
+        </li>
+
+        <!-- Downloads link -->
+        <li>
+          <a @click.prevent="updateUrl('downloads')"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'downloads', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'downloads'}"
+            class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
+            <?php
+            echo Wpstorm_Helpers::get_svg_icon('download', 'h-6 w-6 shrink-0', '', 'text-gray-400');
+            echo __('Downloads', 'wpstorm-theme') ?>
+          </a>
+        </li>
+
+        <!-- Payment methods link -->
+        <li>
+          <a @click.prevent="updateUrl('payment-methods')"
+            :class="{'bg-indigo-50 text-indigo-600': section === 'payment-methods', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'payment-methods'}"
+            class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
+            <?php
+            echo Wpstorm_Helpers::get_svg_icon('credit-card', 'h-6 w-6 shrink-0', '', 'text-gray-400');
+            echo __('Payment Methods', 'wpstorm-theme') ?>
+          </a>
+        </li>
+
         <?php endif; ?>
 
         <!-- Logout link -->

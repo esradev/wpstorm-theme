@@ -22,9 +22,33 @@
       <?php require_once 'profile-one-posts-section.php'; ?>
     </div>
 
-    <div x-show="!['general', 'security', 'posts', 'create-post', 'edit-post'].includes(section)" x-cloak x-transition.opacity.duration.300ms class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+    <?php
+      // add woocommerce profile section
+      if (class_exists('WooCommerce')) { ?>
+        
+        <div x-show="section === 'orders'" x-cloak x-transition.opacity.duration.300ms class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+          <?php require_once 'profile-one-wc-orders-section.php'; ?>
+        </div>
+
+        <div x-show="section === 'downloads'" x-cloak x-transition.opacity.duration.300ms class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+          <?php require_once 'profile-one-wc-downloads-section.php'; ?>
+        </div>
+
+        <div x-show="section === 'addresses'" x-cloak x-transition.opacity.duration.300ms class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+          <?php require_once 'profile-one-wc-addresses-section.php'; ?>
+        </div>
+
+        <div x-show="section === 'payment-methods'" x-cloak x-transition.opacity.duration.300ms class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+          <?php require_once 'profile-one-wc-payment-methods-section.php'; ?>
+        </div>
+
+      <? }
+    ?>
+
+
+    <!-- <div x-show="!['general', 'security', 'posts', 'create-post', 'edit-post'].includes(section)" x-cloak x-transition.opacity.duration.300ms class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
       <?php require_once 'profile-one-not-found-section.php'; ?>
-    </div>
+    </div> -->
 </main>
 
 </div>
