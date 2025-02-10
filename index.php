@@ -6,7 +6,7 @@ get_header();
 
 <div class="mx-auto max-w-7xl px-6 lg:px-8">
   <div class="mx-auto max-w-2xl lg:max-w-4xl">
-    <div class="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
+    <div class="mt-16 space-y-20 lg:mt-20">
       <?php
         $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
         // Query the latest posts
