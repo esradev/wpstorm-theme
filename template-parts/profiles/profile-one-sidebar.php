@@ -14,7 +14,7 @@
       <ul role="list" class="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col">
         <!-- General link -->
         <li>
-          <a @click.prevent="section = 'general'; updateUrl('general')"
+          <a @click.prevent="updateUrl('general')"
             :class="{'bg-indigo-50 text-indigo-600': section === 'general', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'general'}"
             class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
             <?php
@@ -25,7 +25,7 @@
 
         <!-- Security link -->
         <li>
-          <a @click.prevent="section = 'security'; updateUrl('security')"
+          <a @click.prevent="updateUrl('security')"
             :class="{'bg-indigo-50 text-indigo-600': section === 'security', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'security'}"
             class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
             <?php
@@ -38,7 +38,7 @@
         <?php if (current_user_can('edit_posts')) : ?>
         <!-- Create new post link -->
         <li>
-          <a @click.prevent="section = 'create-post'; updateUrl('create-post')"
+          <a @click.prevent="updateUrl('create-post')"
             :class="{'bg-indigo-50 text-indigo-600': section === 'create-post', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'create-post'}"
             class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
             <?php
@@ -48,7 +48,7 @@
         </li>
 
         <li>
-          <a @click.prevent="section = 'posts'; updateUrl('posts')"
+          <a @click.prevent="updateUrl('posts')"
             :class="{'bg-indigo-50 text-indigo-600': section === 'posts', 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50': section !== 'posts'}"
             class="group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold cursor-pointer">
             <?php

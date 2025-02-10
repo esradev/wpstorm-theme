@@ -12,6 +12,10 @@ Alpine.store("search", {
   search_modal: false
 });
 
+Alpine.store("profilePage", {
+  section: "general"
+});
+
 const notify = (message, type = "success") => {
   Toastify({
     text: message,
@@ -399,5 +403,30 @@ Alpine.data("editPost", () => ({
     // Your reset form logic here
   }
 }));
+
+Alpine.data("profilePage", () => ({
+  section: new URLSearchParams(window.location.search).get("section") || "general",
+
+  updateUrl(section) {
+    const url = new URL(window.location);
+    url.searchParams.set("section", section);
+    window.history.pushState({ section }, "", url);
+    this.section = section;
+  },
+
+  init() {
+    // Listen for the 'section-changed' event and update the section dynamically
+    window.addEventListener("section-changed", event => {
+      this.section = event.detail.section;
+    });
+  }
+}));
+
+// Ensure Alpine reacts when the user navigates back or forward
+window.addEventListener("popstate", () => {
+  const newSection = new URLSearchParams(window.location.search).get("section") || "general";
+  // Dispatch a custom event to update Alpine's state
+  window.dispatchEvent(new CustomEvent("section-changed", { detail: { section: newSection } }));
+});
 
 Alpine.start();
