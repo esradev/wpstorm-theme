@@ -1,7 +1,6 @@
 <?php if (current_user_can('edit_posts')) : ?>
 <!-- Create New Post -->
-<div x-cloak x-show="section === 'create-post'"
-  class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none" x-data="createPost()">
+<div x-cloak x-show="section === 'create-post'" x-data="createPost()">
   <div>
     <h2 class="text-base font-semibold leading-7 text-gray-900">
       <?php echo __('Create New Post', 'wpstorm-theme'); ?> </h2>
@@ -79,6 +78,10 @@
                 'bg-yellow-100 text-yellow-600': post.status === 'pending',
                 'bg-gray-100 text-gray-600': post.status === 'draft',
                 'bg-red-100 text-red-600': post.status === 'trash',
+                'bg-blue-100 text-blue-600': post.status === 'future',
+                'bg-indigo-100 text-indigo-600': post.status === 'private',
+                'bg-purple-100 text-purple-600': post.status === 'inherit',
+                'bg-pink-100 text-pink-600': post.status === 'auto-draft',
                 }"></div>
             </td>
             <td class="py-2 pl-6 flex justify-end gap-x-2" x-data="deletePost(post)">
@@ -149,9 +152,9 @@
   </div>
 </div>
 
+
 <!-- Edit Post -->
-<div x-cloak x-show="section.startsWith('edit-post?id=')"
-  class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+<div x-cloak x-show="section.startsWith('edit-post?id=')">
   <div x-data="editPost">
     <h2 class="text-base font-semibold leading-7 text-gray-900">
       <?php echo __('Edit Post', 'wpstorm-theme'); ?>

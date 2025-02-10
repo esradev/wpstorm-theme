@@ -128,64 +128,31 @@ class Wpstorm_Helpers
     }
 
     // return all post by author id as json
-    public static function get_posts_by_author($author_id) {
-        $current_user = wp_get_current_user();
+    public static function get_posts_by_author($user_id) {
+        $args = [
+            'author' => $user_id,
+            'post_type' => 'post', // Ensure only blog posts
+            'post_status' => ['publish', 'draft', 'pending', 'trash', 'future', 'private'], // Include all post statuses
+            'posts_per_page' => -1, // Fetch all posts
+        ];
 
-        // Define the query parameters based on current user
-        $args = array(
-            'post_type' => 'any',
-            'author'    => $author_id,
-            'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'],
-        );
+        $query = new WP_Query($args);
+        $posts = [];
 
-        // Create a new query
-        $user_posts_query = new WP_Query($args);
-
-        // Check if there are posts
-        if ($user_posts_query->have_posts()) {
-            while ($user_posts_query->have_posts()) {
-                $user_posts_query->the_post();
-                $post_id = get_the_ID();
-                $post_title = get_the_title();
-                $post_link = get_the_permalink();
-                $post_date = get_the_date();
-                $post_status = get_post_status();
-                $post_type = get_post_type();
-                $post_thumbnail = get_the_post_thumbnail_url($post_id, 'thumbnail');
-                $post_excerpt = get_the_excerpt();
-                $post_content = get_the_content();
-                $post_comments = get_comments_number($post_id);
-                $post_likes = get_post_meta($post_id, 'likes', true);
-                $post_views = get_post_meta($post_id, 'views', true);
-                $post_categories = get_the_category($post_id);
-                $post_tags = get_the_tags($post_id);
-
-                $posts[] = array(
-                    'id' => $post_id,
-                    'title' => $post_title,
-                    'link' => $post_link,
-                    'date' => $post_date,
-                    'status' => $post_status,
-                    'type' => $post_type,
-                    'thumbnail' => $post_thumbnail,
-                    'excerpt' => $post_excerpt,
-                    'content' => $post_content,
-                    'comments' => $post_comments,
-                    'likes' => $post_likes,
-                    'views' => $post_views,
-                    'categories' => $post_categories,
-                    'tags' => $post_tags,
-                );
-            }
-
-            // Reset the post data
-            wp_reset_postdata();
-
-            return $posts;
-        } else {
-            return [];
+        while ($query->have_posts()) {
+            $query->the_post();
+            $posts[] = [
+                'id' => get_the_ID(),
+                'title' => get_the_title(),
+                'link' => get_permalink(),
+                'status' => get_post_status(),
+            ];
         }
+
+        wp_reset_postdata();
+        return $posts;
     }
+
 
 }
 

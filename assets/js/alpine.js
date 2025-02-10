@@ -412,6 +412,9 @@ Alpine.data("profilePage", () => ({
     url.searchParams.set("section", section);
     window.history.pushState({ section }, "", url);
     this.section = section;
+
+    // Smooth scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   init() {
