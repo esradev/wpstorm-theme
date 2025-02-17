@@ -10,10 +10,7 @@
     "start": "npm-run-all --parallel wpstart",
     "wpbuild": "wp-scripts build src/index.js assets/js/alpine.js --output-path=build",
     "wpstart": "wp-scripts start src/index.js assets/js/alpine.js --output-path=build",
-    "tailwindbuild": "tailwindcss -i src/index.css -o build/index.css --minify",
     "tailwindwatch": "tailwindcss -i src/index.css -o build/index.css --watch --minify",
-    "build:my-account": "wp-scripts build src/my-account/index.js --output-path=build/my-account",
-    "start:my-account": "wp-scripts start src/my-account/index.js --output-path=build/my-account",
     "plugin-zip": "wp-scripts plugin-zip"
   },
   "files": [
